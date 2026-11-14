@@ -1,0 +1,101 @@
+<?php
+declare(strict_types=1);
+
+
+#
+# DOT NOT MODIFY THIS FILE !
+#
+
+use Dotclear\Helper\L10n;
+
+L10n::$locales['Dead links and unused media'] = 'Liens morts et médias orphelins';
+L10n::$locales['Find dead links, missing files and unused media of the blog'] = 'Trouver les liens morts, les fichiers absents et les médias inutilisés du blog';
+L10n::$locales['%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed).'] = '%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés).';
+L10n::$locales['%s media deleted.'] = '%s médias supprimés.';
+L10n::$locales['A check is going on. Keep this page open until the end: it goes on by itself.'] = 'Une vérification est en cours. Gardez cette page ouverte jusqu\'à la fin : elle avance toute seule.';
+L10n::$locales['A check reads all the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.'] = 'Une vérification lit tous les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu\'aucun billet n\'utilise. Elle peut prendre plusieurs minutes.';
+L10n::$locales['Address'] = 'Adresse';
+L10n::$locales['All statuses'] = 'Tous les états';
+L10n::$locales['All types'] = 'Tous les types';
+L10n::$locales['Answer of the site: %s'] = 'Réponse du site : %s';
+L10n::$locales['Are you sure you want to delete selected media from the media library? This can not be undone.'] = 'Êtes-vous sûr de vouloir supprimer les médias sélectionnés de la médiathèque ? C\'est définitif.';
+L10n::$locales['Back to the list'] = 'Retour à la liste';
+L10n::$locales['Check again'] = 'Vérifier à nouveau';
+L10n::$locales['Check all the links again this time, even those checked a few days ago'] = 'Vérifier à nouveau tous les liens cette fois-ci, même ceux vérifiés il y a quelques jours';
+L10n::$locales['Check going on'] = 'Vérification en cours';
+L10n::$locales['Check links and media of the entries'] = 'Vérifier les liens et les médias des billets';
+L10n::$locales['Continue'] = 'Continuer';
+L10n::$locales['Delete the media from the media library'] = 'Supprimer le média de la médiathèque';
+L10n::$locales['Domain not to check'] = 'Domaine à ne pas vérifier';
+L10n::$locales['Domains not to check:'] = 'Domaines à ne pas vérifier :';
+L10n::$locales['Edit this entry'] = 'Modifier ce billet';
+L10n::$locales['Entry'] = 'Billet';
+L10n::$locales['Failed to check links and media.'] = 'La vérification des liens et des médias a échoué.';
+L10n::$locales['File found'] = 'Fichier trouvé';
+L10n::$locales['File not found in the media library'] = 'Fichier absent de la médiathèque';
+L10n::$locales['File'] = 'Fichier';
+L10n::$locales['Files'] = 'Fichiers';
+L10n::$locales['Ignore'] = 'Ignorer';
+L10n::$locales['Ignored'] = 'Ignoré';
+L10n::$locales['Last check'] = 'Dernière vérification';
+L10n::$locales['Last check: %1$s. To fix: %2$s links, %3$s missing files, %4$s unused media.'] = 'Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents, %4$s médias inutilisés.';
+L10n::$locales['Last check: %s.'] = 'Dernière vérification : %s.';
+L10n::$locales['Link'] = 'Lien';
+L10n::$locales['Links and media check done.'] = 'Vérification des liens et des médias terminée.';
+L10n::$locales['Links and media'] = 'Liens et médias';
+L10n::$locales['Links'] = 'Liens';
+L10n::$locales['List of %s lines matching the filter.'] = 'Liste des %s lignes correspondant au filtre.';
+L10n::$locales['List of links, files and media to fix (%s)'] = 'Liste des liens, fichiers et médias à corriger (%s)';
+L10n::$locales['Local address, not checked'] = 'Adresse locale, non vérifiée';
+L10n::$locales['Look for dead links, missing files and unused media of the blog. The result is on the page of the plugin.'] = 'Cherche les liens morts, les fichiers absents et les médias inutilisés du blog. Le résultat est sur la page du plugin.';
+L10n::$locales['Moved to %s'] = 'Déplacé vers %s';
+L10n::$locales['Moved to %s, which does not answer correctly'] = 'Déplacé vers %s, qui ne répond pas correctement';
+L10n::$locales['New check'] = 'Nouvelle vérification';
+L10n::$locales['Next'] = 'Suivant';
+L10n::$locales['No answer in time'] = 'Pas de réponse dans le temps imparti';
+L10n::$locales['No line matches the filter.'] = 'Aucune ligne ne correspond au filtre.';
+L10n::$locales['No line selected.'] = 'Aucune ligne sélectionnée.';
+L10n::$locales['Not checked'] = 'Non vérifié';
+L10n::$locales['Number of days a link without problem is kept before being checked again:'] = 'Nombre de jours pendant lesquels un lien sans problème est conservé avant d\'être vérifié à nouveau :';
+L10n::$locales['One domain per line (example.com). Links to these domains and to their subdomains are not checked.'] = 'Un domaine par ligne (example.com). Les liens vers ces domaines et leurs sous-domaines ne sont pas vérifiés.';
+L10n::$locales['Only unused media can be deleted.'] = 'Seuls les médias inutilisés peuvent être supprimés.';
+L10n::$locales['Options saved.'] = 'Options enregistrées.';
+L10n::$locales['Options'] = 'Options';
+L10n::$locales['Problem'] = 'Problème';
+L10n::$locales['Result'] = 'Résultat';
+L10n::$locales['Save options only'] = 'Enregistrer seulement les options';
+L10n::$locales['Select this line'] = 'Sélectionner cette ligne';
+L10n::$locales['Selected lines action:'] = 'Action sur les lignes sélectionnées :';
+L10n::$locales['Selected lines are now ignored.'] = 'Les lignes sélectionnées sont maintenant ignorées.';
+L10n::$locales['Selected lines have been checked again, but %s links are still waiting: they will be checked by the next check.'] = 'Les lignes sélectionnées ont été vérifiées à nouveau, mais %s liens sont encore en attente : ils seront vérifiés à la prochaine vérification.';
+L10n::$locales['Selected lines have been checked again.'] = 'Les lignes sélectionnées ont été vérifiées à nouveau.';
+L10n::$locales['Selected media are used by an entry since the last check: they have not been deleted.'] = 'Les médias sélectionnés sont utilisés par un billet depuis la dernière vérification : ils n\'ont pas été supprimés.';
+L10n::$locales['Start a first check with the button "New check".'] = 'Lancez une première vérification avec le bouton « Nouvelle vérification ».';
+L10n::$locales['Start the check'] = 'Lancer la vérification';
+L10n::$locales['Status'] = 'État';
+L10n::$locales['Status:'] = 'État :';
+L10n::$locales['Step 1 of 3: reading entries (%1$s of %2$s).'] = 'Étape 1 sur 3 : lecture des billets (%1$s sur %2$s).';
+L10n::$locales['Step 2 of 3: checking links (%1$s of %2$s).'] = 'Étape 2 sur 3 : vérification des liens (%1$s sur %2$s).';
+L10n::$locales['Step 3 of 3: looking for unused media (%1$s of %2$s).'] = 'Étape 3 sur 3 : recherche des médias inutilisés (%1$s sur %2$s).';
+L10n::$locales['Stop the check'] = 'Arrêter la vérification';
+L10n::$locales['The check has been stopped. What was checked so far is kept.'] = 'La vérification a été arrêtée. Ce qui a déjà été vérifié est conservé.';
+L10n::$locales['The check is finished.'] = 'La vérification est terminée.';
+L10n::$locales['There is nothing to fix.'] = 'Il n\'y a rien à corriger.';
+L10n::$locales['This blog has not been checked yet.'] = 'Ce blog n\'a pas encore été vérifié.';
+L10n::$locales['This site does not answer'] = 'Ce site ne répond pas';
+L10n::$locales['This site does not exist'] = 'Ce site n\'existe pas';
+L10n::$locales['To fix'] = 'À corriger';
+L10n::$locales['To verify'] = 'À vérifier';
+L10n::$locales['Too many redirections'] = 'Trop de redirections';
+L10n::$locales['Type'] = 'Type';
+L10n::$locales['Type:'] = 'Type :';
+L10n::$locales['Unknown action.'] = 'Action inconnue.';
+L10n::$locales['Unused media'] = 'Média inutilisé';
+L10n::$locales['Used by no entry'] = 'Utilisé par aucun billet';
+L10n::$locales['Waiting for its check'] = 'En attente de vérification';
+L10n::$locales['Without problem'] = 'Sans problème';
+L10n::$locales['lines per page'] = 'lignes par page';
+L10n::$locales['One problem to fix'] = [
+	'Un problème à corriger',
+	'%d problèmes à corriger',
+];

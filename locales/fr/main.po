@@ -1,0 +1,282 @@
+# Language: Français
+# Module: Orphelins - 0.0
+# Date: 2026-11-14 21:00:00
+# Author: Jean-Christian Denis
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: Orphelins 0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2026-11-14T21:00:00+00:00\n"
+"Last-Translator: Jean-Christian Denis\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Dead links and unused media"
+msgstr "Liens morts et médias orphelins"
+
+msgid "Find dead links, missing files and unused media of the blog"
+msgstr "Trouver les liens morts, les fichiers absents et les médias inutilisés du blog"
+
+msgid "%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed)."
+msgstr "%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés)."
+
+msgid "%s media deleted."
+msgstr "%s médias supprimés."
+
+msgid "A check is going on. Keep this page open until the end: it goes on by itself."
+msgstr "Une vérification est en cours. Gardez cette page ouverte jusqu'à la fin : elle avance toute seule."
+
+msgid "A check reads all the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes."
+msgstr "Une vérification lit tous les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu'aucun billet n'utilise. Elle peut prendre plusieurs minutes."
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "All statuses"
+msgstr "Tous les états"
+
+msgid "All types"
+msgstr "Tous les types"
+
+msgid "Answer of the site: %s"
+msgstr "Réponse du site : %s"
+
+msgid "Are you sure you want to delete selected media from the media library? This can not be undone."
+msgstr "Êtes-vous sûr de vouloir supprimer les médias sélectionnés de la médiathèque ? C'est définitif."
+
+msgid "Back to the list"
+msgstr "Retour à la liste"
+
+msgid "Check again"
+msgstr "Vérifier à nouveau"
+
+msgid "Check all the links again this time, even those checked a few days ago"
+msgstr "Vérifier à nouveau tous les liens cette fois-ci, même ceux vérifiés il y a quelques jours"
+
+msgid "Check going on"
+msgstr "Vérification en cours"
+
+msgid "Check links and media of the entries"
+msgstr "Vérifier les liens et les médias des billets"
+
+msgid "Continue"
+msgstr "Continuer"
+
+msgid "Delete the media from the media library"
+msgstr "Supprimer le média de la médiathèque"
+
+msgid "Domain not to check"
+msgstr "Domaine à ne pas vérifier"
+
+msgid "Domains not to check:"
+msgstr "Domaines à ne pas vérifier :"
+
+msgid "Edit this entry"
+msgstr "Modifier ce billet"
+
+msgid "Entry"
+msgstr "Billet"
+
+msgid "Failed to check links and media."
+msgstr "La vérification des liens et des médias a échoué."
+
+msgid "File found"
+msgstr "Fichier trouvé"
+
+msgid "File not found in the media library"
+msgstr "Fichier absent de la médiathèque"
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "Files"
+msgstr "Fichiers"
+
+msgid "Ignore"
+msgstr "Ignorer"
+
+msgid "Ignored"
+msgstr "Ignoré"
+
+msgid "Last check"
+msgstr "Dernière vérification"
+
+msgid "Last check: %1$s. To fix: %2$s links, %3$s missing files, %4$s unused media."
+msgstr "Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents, %4$s médias inutilisés."
+
+msgid "Last check: %s."
+msgstr "Dernière vérification : %s."
+
+msgid "Link"
+msgstr "Lien"
+
+msgid "Links and media check done."
+msgstr "Vérification des liens et des médias terminée."
+
+msgid "Links and media"
+msgstr "Liens et médias"
+
+msgid "Links"
+msgstr "Liens"
+
+msgid "List of %s lines matching the filter."
+msgstr "Liste des %s lignes correspondant au filtre."
+
+msgid "List of links, files and media to fix (%s)"
+msgstr "Liste des liens, fichiers et médias à corriger (%s)"
+
+msgid "Local address, not checked"
+msgstr "Adresse locale, non vérifiée"
+
+msgid "Look for dead links, missing files and unused media of the blog. The result is on the page of the plugin."
+msgstr "Cherche les liens morts, les fichiers absents et les médias inutilisés du blog. Le résultat est sur la page du plugin."
+
+msgid "Moved to %s"
+msgstr "Déplacé vers %s"
+
+msgid "Moved to %s, which does not answer correctly"
+msgstr "Déplacé vers %s, qui ne répond pas correctement"
+
+msgid "New check"
+msgstr "Nouvelle vérification"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "No answer in time"
+msgstr "Pas de réponse dans le temps imparti"
+
+msgid "No line matches the filter."
+msgstr "Aucune ligne ne correspond au filtre."
+
+msgid "No line selected."
+msgstr "Aucune ligne sélectionnée."
+
+msgid "Not checked"
+msgstr "Non vérifié"
+
+msgid "Number of days a link without problem is kept before being checked again:"
+msgstr "Nombre de jours pendant lesquels un lien sans problème est conservé avant d'être vérifié à nouveau :"
+
+msgid "One domain per line (example.com). Links to these domains and to their subdomains are not checked."
+msgstr "Un domaine par ligne (example.com). Les liens vers ces domaines et leurs sous-domaines ne sont pas vérifiés."
+
+msgid "Only unused media can be deleted."
+msgstr "Seuls les médias inutilisés peuvent être supprimés."
+
+msgid "Options saved."
+msgstr "Options enregistrées."
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Problem"
+msgstr "Problème"
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "Save options only"
+msgstr "Enregistrer seulement les options"
+
+msgid "Select this line"
+msgstr "Sélectionner cette ligne"
+
+msgid "Selected lines action:"
+msgstr "Action sur les lignes sélectionnées :"
+
+msgid "Selected lines are now ignored."
+msgstr "Les lignes sélectionnées sont maintenant ignorées."
+
+msgid "Selected lines have been checked again, but %s links are still waiting: they will be checked by the next check."
+msgstr "Les lignes sélectionnées ont été vérifiées à nouveau, mais %s liens sont encore en attente : ils seront vérifiés à la prochaine vérification."
+
+msgid "Selected lines have been checked again."
+msgstr "Les lignes sélectionnées ont été vérifiées à nouveau."
+
+msgid "Selected media are used by an entry since the last check: they have not been deleted."
+msgstr "Les médias sélectionnés sont utilisés par un billet depuis la dernière vérification : ils n'ont pas été supprimés."
+
+msgid "Start a first check with the button \"New check\"."
+msgstr "Lancez une première vérification avec le bouton « Nouvelle vérification »."
+
+msgid "Start the check"
+msgstr "Lancer la vérification"
+
+msgid "Status"
+msgstr "État"
+
+msgid "Status:"
+msgstr "État :"
+
+msgid "Step 1 of 3: reading entries (%1$s of %2$s)."
+msgstr "Étape 1 sur 3 : lecture des billets (%1$s sur %2$s)."
+
+msgid "Step 2 of 3: checking links (%1$s of %2$s)."
+msgstr "Étape 2 sur 3 : vérification des liens (%1$s sur %2$s)."
+
+msgid "Step 3 of 3: looking for unused media (%1$s of %2$s)."
+msgstr "Étape 3 sur 3 : recherche des médias inutilisés (%1$s sur %2$s)."
+
+msgid "Stop the check"
+msgstr "Arrêter la vérification"
+
+msgid "The check has been stopped. What was checked so far is kept."
+msgstr "La vérification a été arrêtée. Ce qui a déjà été vérifié est conservé."
+
+msgid "The check is finished."
+msgstr "La vérification est terminée."
+
+msgid "There is nothing to fix."
+msgstr "Il n'y a rien à corriger."
+
+msgid "This blog has not been checked yet."
+msgstr "Ce blog n'a pas encore été vérifié."
+
+msgid "This site does not answer"
+msgstr "Ce site ne répond pas"
+
+msgid "This site does not exist"
+msgstr "Ce site n'existe pas"
+
+msgid "To fix"
+msgstr "À corriger"
+
+msgid "To verify"
+msgstr "À vérifier"
+
+msgid "Too many redirections"
+msgstr "Trop de redirections"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Type:"
+msgstr "Type :"
+
+msgid "Unknown action."
+msgstr "Action inconnue."
+
+msgid "Unused media"
+msgstr "Média inutilisé"
+
+msgid "Used by no entry"
+msgstr "Utilisé par aucun billet"
+
+msgid "Waiting for its check"
+msgstr "En attente de vérification"
+
+msgid "Without problem"
+msgstr "Sans problème"
+
+msgid "lines per page"
+msgstr "lignes par page"
+
+msgid "One problem to fix"
+msgid_plural "%d problems to fix"
+msgstr[0] "Un problème à corriger"
+msgstr[1] "%d problèmes à corriger"
