@@ -27,7 +27,8 @@ Required Dotclear and PHP versions: see `_define.php`.
 * `src/My.php`: no permission of its own, `My::isAllowed()` is the core permission `contentadmin` on the current blog.
 * `src/Manage.php`: two lists on two pages linked by pseudo tabs, links and files (default) and unused media (`part=media`),
   each with its filters, its display options (`Orphelins` and `OrphelinsMedia`) and its actions on selected lines.
-  `ManageCheck.php` (start and follow a check, options), `ManageVars.php` (request values); `js/manage.js`.
+  `ManageCheck.php` (options and start; check going on, with request `run` set by the redirection after each step;
+  check left before its end, which waits for "resume" or "give up"), `ManageVars.php` (request values); `js/manage.js`.
 * `src/BackendBehaviors.php`: filters options (`adminFiltersListsV3`), dashboard favorite with the number of problems,
   task of the plugin maintenance (`dcMaintenanceInit`, `src/Maintenance/CheckTask.php`).
 * `src/ClaudetteMcp/ListContentProblems.php`: tool `list_content_problems`, registered in `src/Frontend.php`

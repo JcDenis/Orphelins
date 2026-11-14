@@ -28,7 +28,9 @@ use Exception;
  * Start a check of the blog and follow it. This page is called by Manage.
  *
  * A check is done by steps (see Checker): the page is loaded again for each step,
- * by itself with JavaScript, else with a button.
+ * by itself with JavaScript, else with a button. The page shows one of three forms:
+ * no check (options and start), check going on (request "run", set by the redirection after each step),
+ * or check left before its end (resume or give up).
  *
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
@@ -55,6 +57,8 @@ class ManageCheck
         }
 
         $params = [... self::$vars->params(), 'check' => 1];
+        // The page of a check which goes on by itself, see render()
+        $run = [... $params, 'run' => 1];
 
         try {
             if (isset($_POST['stop'])) {
@@ -73,7 +77,7 @@ class ManageCheck
                     App::backend()->notices()->addSuccessNotice(__('The check is finished.'));
                     My::redirect();
                 }
-                My::redirect($params);
+                My::redirect($run);
             }
 
             if (isset($_POST['save']) || isset($_POST['start'])) {
@@ -87,9 +91,10 @@ class ManageCheck
                     if (!Checker::isRunning()) {
                         Checker::start(!empty($_POST['full']));
                     }
-                } else {
-                    App::backend()->notices()->addSuccessNotice(__('Options saved.'));
+                    My::redirect($run);
                 }
+
+                App::backend()->notices()->addSuccessNotice(__('Options saved.'));
                 My::redirect($params);
             }
         } catch (Exception $exception) {
@@ -117,7 +122,13 @@ class ManageCheck
         ]) .
         App::backend()->notices()->getNotices();
 
-        echo Checker::isRunning() ? self::stepForm()->render() : self::startForm()->render();
+        if (!Checker::isRunning()) {
+            echo self::startForm()->render();
+        } elseif (ManageVars::request('run') !== '') {
+            echo self::stepForm()->render();
+        } else {
+            echo self::resumeForm()->render();
+        }
 
         echo (new Para())
             ->items([
@@ -134,7 +145,9 @@ class ManageCheck
     }
 
     /**
-     * Get the form of a check going on.
+     * Get the form of a check going on: the page has just started it or done one of its steps.
+     *
+     * With JavaScript the next step is sent by itself and its button is hidden.
      */
     private static function stepForm(): Form
     {
@@ -144,15 +157,40 @@ class ManageCheck
             ->fields([
                 (new Note())
                     ->class('info')
-                    ->text(__('A check is going on. Keep this page open until the end: it goes on by itself.')),
+                    ->text(__('The check is going on. Keep this page open until the end: it goes on by itself.')),
                 (new Note())
                     ->class('step-msg')
                     ->text(Html::escapeHTML(Checker::message())),
                 (new Para())
                     ->class('form-buttons')
                     ->items([
-                        (new Submit('step', __('Continue'))),
+                        (new Submit('step', __('Next step'))),
                         (new Submit('stop', __('Stop the check')))
+                            ->class('delete'),
+                        ... My::hiddenFields(),
+                    ]),
+            ]);
+    }
+
+    /**
+     * Get the form of a check left before its end: nothing goes on until the user asks for it.
+     */
+    private static function resumeForm(): Form
+    {
+        return (new Form('check-resume-form'))
+            ->method('post')
+            ->action(My::manageUrl([... self::$vars->params(), 'check' => 1]))
+            ->fields([
+                (new Note())
+                    ->class('warning')
+                    ->text(__('A check was left before its end and is waiting. Resume it, or give it up to start a new one: what was checked so far is kept.')),
+                (new Note())
+                    ->text(Html::escapeHTML(sprintf(__('It stopped at: %s'), Checker::message()))),
+                (new Para())
+                    ->class('form-buttons')
+                    ->items([
+                        (new Submit('step', __('Resume the check'))),
+                        (new Submit('stop', __('Give up the check')))
                             ->class('delete'),
                         ... My::hiddenFields(),
                     ]),

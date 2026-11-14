@@ -27,9 +27,6 @@ msgstr "%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière 
 msgid "%s media deleted."
 msgstr "%s médias supprimés."
 
-msgid "A check is going on. Keep this page open until the end: it goes on by itself."
-msgstr "Une vérification est en cours. Gardez cette page ouverte jusqu'à la fin : elle avance toute seule."
-
 msgid "A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes."
 msgstr "Une vérification lit les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu'aucun billet n'utilise. Elle peut prendre plusieurs minutes."
 
@@ -54,14 +51,8 @@ msgstr "Vérifier à nouveau"
 msgid "Check all the links again this time, even those checked a few days ago"
 msgstr "Vérifier à nouveau tous les liens cette fois-ci, même ceux vérifiés il y a quelques jours"
 
-msgid "Check going on"
-msgstr "Vérification en cours"
-
 msgid "Check links and media of the entries"
 msgstr "Vérifier les liens et les médias des billets"
-
-msgid "Continue"
-msgstr "Continuer"
 
 msgid "Domain not to check"
 msgstr "Domaine à ne pas vérifier"
@@ -335,6 +326,24 @@ msgstr "Ne vérifier que les billets publiés depuis le :"
 
 msgid "Without date, all the entries are checked. With a date, older entries leave the list of links and files."
 msgstr "Sans date, tous les billets sont vérifiés. Avec une date, les billets plus anciens sortent de la liste des liens et fichiers."
+
+msgid "The check is going on. Keep this page open until the end: it goes on by itself."
+msgstr "La vérification est en cours. Gardez cette page ouverte jusqu'à la fin : elle avance toute seule."
+
+msgid "Next step"
+msgstr "Étape suivante"
+
+msgid "A check was left before its end and is waiting. Resume it, or give it up to start a new one: what was checked so far is kept."
+msgstr "Une vérification a été quittée avant la fin et attend. Reprenez-la, ou abandonnez-la pour en lancer une nouvelle : ce qui a déjà été vérifié est conservé."
+
+msgid "It stopped at: %s"
+msgstr "Elle s'est arrêtée à : %s"
+
+msgid "Resume the check"
+msgstr "Reprendre la vérification"
+
+msgid "Give up the check"
+msgstr "Abandonner la vérification"
 
 msgid "One problem to fix"
 msgid_plural "%d problems to fix"

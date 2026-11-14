@@ -12,7 +12,6 @@ L10n::$locales['Dead links and unused media'] = 'Liens morts et médias orphelin
 L10n::$locales['Find dead links, missing files and unused media of the blog'] = 'Trouver les liens morts, les fichiers absents et les médias inutilisés du blog';
 L10n::$locales['%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed).'] = '%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés).';
 L10n::$locales['%s media deleted.'] = '%s médias supprimés.';
-L10n::$locales['A check is going on. Keep this page open until the end: it goes on by itself.'] = 'Une vérification est en cours. Gardez cette page ouverte jusqu\'à la fin : elle avance toute seule.';
 L10n::$locales['A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.'] = 'Une vérification lit les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu\'aucun billet n\'utilise. Elle peut prendre plusieurs minutes.';
 L10n::$locales['Address'] = 'Adresse';
 L10n::$locales['All statuses'] = 'Tous les états';
@@ -21,9 +20,7 @@ L10n::$locales['Are you sure you want to delete selected media from the media li
 L10n::$locales['Back to the list'] = 'Retour à la liste';
 L10n::$locales['Check again'] = 'Vérifier à nouveau';
 L10n::$locales['Check all the links again this time, even those checked a few days ago'] = 'Vérifier à nouveau tous les liens cette fois-ci, même ceux vérifiés il y a quelques jours';
-L10n::$locales['Check going on'] = 'Vérification en cours';
 L10n::$locales['Check links and media of the entries'] = 'Vérifier les liens et les médias des billets';
-L10n::$locales['Continue'] = 'Continuer';
 L10n::$locales['Domain not to check'] = 'Domaine à ne pas vérifier';
 L10n::$locales['Domains not to check:'] = 'Domaines à ne pas vérifier :';
 L10n::$locales['Edit this entry'] = 'Modifier ce billet';
@@ -115,6 +112,12 @@ L10n::$locales['List of links and files to fix (%s)'] = 'Liste des liens et fich
 L10n::$locales['Delete from the media library'] = 'Supprimer de la médiathèque';
 L10n::$locales['Only check the entries published since:'] = 'Ne vérifier que les billets publiés depuis le :';
 L10n::$locales['Without date, all the entries are checked. With a date, older entries leave the list of links and files.'] = 'Sans date, tous les billets sont vérifiés. Avec une date, les billets plus anciens sortent de la liste des liens et fichiers.';
+L10n::$locales['The check is going on. Keep this page open until the end: it goes on by itself.'] = 'La vérification est en cours. Gardez cette page ouverte jusqu\'à la fin : elle avance toute seule.';
+L10n::$locales['Next step'] = 'Étape suivante';
+L10n::$locales['A check was left before its end and is waiting. Resume it, or give it up to start a new one: what was checked so far is kept.'] = 'Une vérification a été quittée avant la fin et attend. Reprenez-la, ou abandonnez-la pour en lancer une nouvelle : ce qui a déjà été vérifié est conservé.';
+L10n::$locales['It stopped at: %s'] = 'Elle s\'est arrêtée à : %s';
+L10n::$locales['Resume the check'] = 'Reprendre la vérification';
+L10n::$locales['Give up the check'] = 'Abandonner la vérification';
 L10n::$locales['One problem to fix'] = [
 	'Un problème à corriger',
 	'%d problèmes à corriger',

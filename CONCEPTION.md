@@ -113,7 +113,11 @@ Une page du plugin dans le menu Blog, construite comme les listes du cœur :
   (behavior `adminFiltersListsV3`) ;
 * la colonne « Résultat » tient en un ou deux mots (« HTTP 404 », « Site inconnu », « Redirigé ») ; le détail
   (l'adresse de redirection par exemple) est dans l'infobulle ;
-* un bouton « Nouvelle vérification » en haut de page mène à la page de la vérification : options, lancement, suivi et arrêt ;
+* un bouton « Nouvelle vérification » en haut de page mène à la page de la vérification, qui a trois états bien distincts :
+  pas de vérification (options et bouton « Lancer la vérification »), vérification en cours (la page avance toute seule,
+  seul bouton : « Arrêter la vérification »), vérification quittée avant la fin (rien n'avance, boutons « Reprendre
+  la vérification » et « Abandonner la vérification ») ; dans ce dernier cas le bouton des listes devient
+  « Reprendre la vérification » ;
 * des actions groupées : vérifier à nouveau (relit les billets concernés, donc un billet corrigé perd ses problèmes ;
   sert aussi à ne plus ignorer une ligne), ignorer, et pour les médias seulement, supprimer de la médiathèque ;
 * avant de supprimer un média, il est recherché une nouvelle fois dans les billets : la liste peut être ancienne.

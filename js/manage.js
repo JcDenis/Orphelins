@@ -38,13 +38,18 @@ dotclear.ready(() => {
     });
 
     const stop = step.querySelector('#stop');
+    const next = step.querySelector('#step');
+    if (next) {
+      // Not needed here: the next step is sent by itself
+      next.style.display = 'none';
+    }
     let stopped = false;
     stop?.addEventListener('click', () => {
       stopped = true;
     });
     globalThis.setTimeout(() => {
       if (!stopped) {
-        step.querySelector('#step')?.click();
+        next?.click();
       }
     }, 500);
   }

@@ -201,7 +201,7 @@ class Manage
                 (new Link())
                     ->class(['button', 'add'])
                     ->href(My::manageUrl([... $vars->params(), 'check' => 1]))
-                    ->text(Checker::isRunning() ? __('Check going on') : __('New check')),
+                    ->text(Checker::isRunning() ? __('Resume the check') : __('New check')),
             ])
             ->render() .
         self::summary()->render();
