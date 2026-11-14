@@ -13,7 +13,7 @@ L10n::$locales['Find dead links, missing files and unused media of the blog'] = 
 L10n::$locales['%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed).'] = '%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés).';
 L10n::$locales['%s media deleted.'] = '%s médias supprimés.';
 L10n::$locales['A check is going on. Keep this page open until the end: it goes on by itself.'] = 'Une vérification est en cours. Gardez cette page ouverte jusqu\'à la fin : elle avance toute seule.';
-L10n::$locales['A check reads all the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.'] = 'Une vérification lit tous les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu\'aucun billet n\'utilise. Elle peut prendre plusieurs minutes.';
+L10n::$locales['A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.'] = 'Une vérification lit les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu\'aucun billet n\'utilise. Elle peut prendre plusieurs minutes.';
 L10n::$locales['Address'] = 'Adresse';
 L10n::$locales['All statuses'] = 'Tous les états';
 L10n::$locales['Answer of the site: %s'] = 'Réponse du site : %s';
@@ -113,6 +113,8 @@ L10n::$locales['Last check: %1$s. To fix: %2$s links, %3$s missing files.'] = 'D
 L10n::$locales['List of unused media (%s)'] = 'Liste des médias inutilisés (%s)';
 L10n::$locales['List of links and files to fix (%s)'] = 'Liste des liens et fichiers à corriger (%s)';
 L10n::$locales['Delete from the media library'] = 'Supprimer de la médiathèque';
+L10n::$locales['Only check the entries published since:'] = 'Ne vérifier que les billets publiés depuis le :';
+L10n::$locales['Without date, all the entries are checked. With a date, older entries leave the list of links and files.'] = 'Sans date, tous les billets sont vérifiés. Avec une date, les billets plus anciens sortent de la liste des liens et fichiers.';
 L10n::$locales['One problem to fix'] = [
 	'Un problème à corriger',
 	'%d problèmes à corriger',

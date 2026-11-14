@@ -36,7 +36,7 @@ With the plugin [ClaudetteMcp](https://github.com/JcDenis/ClaudetteMcp), an AI a
 2. In the blog menu, open _Dead links and unused media_.
 3. Start a check with the button _New check_ and keep the page open until the end.
 
-A check reads the entries of the blog whatever their type (posts, pages…) and their status. It goes on by steps of a few seconds,
+A check reads the entries of the blog (all of them, or the ones published since a date) whatever their type (posts, pages…) and their status. It goes on by steps of a few seconds,
 so it does not depend on the time limit of the server. It can be stopped: what was checked so far is kept.
 
 The result is in two lists, on two pages: _Links and files_, with a link to the entry to edit, and _Unused media_.
@@ -55,6 +55,7 @@ Selected unused media can also be deleted from the media library, after a confir
 
 Options of the check:
 
+* a date, to only check the entries published since that date (all the entries by default),
 * domains not to check (sites which always refuse robots),
 * number of days a link without problem is kept before being asked again to its site (7 by default).
 

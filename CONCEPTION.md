@@ -62,13 +62,16 @@ Une table, `orphelins` (nom en minuscules).
 | `item_dt` | timestamp, optionnel | date de la dernière vérification |
 
 Réglages du blog (espace `Orphelins`) : `state` (avancement de la vérification en cours, JSON), `last_check` (date de fin
-de la dernière vérification), `ignored_domains`, `recheck_days`.
+de la dernière vérification), `ignored_domains`, `recheck_days`, `since_date`.
 
 ## La vérification
 
 Trois phases, dans l'ordre :
 
-1. **Lecture des billets** (tous les types, tous les états). Les adresses sont tirées de l'extrait et du contenu HTML :
+1. **Lecture des billets** (tous les types, tous les états), tous ou seulement ceux publiés depuis la date choisie
+   dans les options (`since_date`, d'après la date de publication : c'est celle que l'auteur voit et règle, et un vieux billet
+   republié redevient vérifié). Avec une date, les lignes des billets plus anciens sont supprimées au lancement.
+   La recherche des médias orphelins, elle, tient toujours compte de tous les billets. Les adresses sont tirées de l'extrait et du contenu HTML :
    `href` des liens, `src`, `srcset` et `poster` des images, sons et vidéos, `src` des `iframe`, `data` des `object`.
    Les adresses relatives sont complétées avec l'adresse du blog ; `mailto:`, `tel:`, les ancres et les autres protocoles
    sont écartés. Une adresse située dans la médiathèque du blog devient un « fichier », cherché tout de suite sur le disque ;

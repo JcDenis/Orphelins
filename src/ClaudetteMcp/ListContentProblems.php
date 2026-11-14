@@ -81,6 +81,7 @@ class ListContentProblems extends McpTool
             'The result always gives the date of the last check and the numbers of lines by type ("summary"), ' .
             'then the lines to fix by default: "problem" is a dead link, a missing file or an unused media, ' .
             '"to_verify" is a link whose site gave no clear answer (it may refuse robots). ' .
+            '"checked_since", if any, is a date: only the entries published since that date are checked. ' .
             'This tool only reads the last check: a check is started from the blog administration, and may be old. ' .
             'An unused media may still be used by a theme or a widget: never tell it is safe to delete without saying so. ' .
             '"result" is a keyword, sometimes followed by a detail: http (see "http_code"), redirect and the final address, ' .
@@ -153,6 +154,7 @@ class ListContentProblems extends McpTool
 
         return [
             'last_check'    => $last > 0 ? $this->date(date('Y-m-d H:i:s', $last)) : null,
+            'checked_since' => Checker::sinceDate() === '' ? null : Checker::sinceDate(),
             'check_running' => Checker::isRunning(),
             'summary'       => $summary,
             'total'         => Items::count($types, self::STATUSES[$status], $query),

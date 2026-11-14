@@ -6,6 +6,7 @@ namespace Dotclear\Plugin\Orphelins;
 
 use Dotclear\App;
 use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Date;
 use Dotclear\Helper\Html\Form\Fieldset;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Label;
@@ -74,7 +75,8 @@ class ManageCheck
             if (isset($_POST['save']) || isset($_POST['start'])) {
                 Checker::saveOptions(
                     ManageVars::post('ignored_domains'),
-                    is_numeric(ManageVars::post('recheck_days')) ? (int) ManageVars::post('recheck_days') : Checker::RECHECK_DAYS
+                    is_numeric(ManageVars::post('recheck_days')) ? (int) ManageVars::post('recheck_days') : Checker::RECHECK_DAYS,
+                    ManageVars::post('since_date')
                 );
 
                 if (isset($_POST['start'])) {
@@ -169,10 +171,18 @@ class ManageCheck
                 (new Note())
                     ->text($last > 0 ? sprintf(__('Last check: %s.'), Html::escapeHTML(Manage::date(date('Y-m-d H:i:s', $last)))) : __('This blog has not been checked yet.')),
                 (new Note())
-                    ->text(__('A check reads all the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.')),
+                    ->text(__('A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.')),
                 (new Fieldset())
                     ->legend(new Legend(__('Options')))
                     ->fields([
+                        (new Para())
+                            ->items([
+                                (new Date('since_date', Html::escapeHTML($posted ? Checker::cleanDate(ManageVars::post('since_date')) : Checker::sinceDate())))
+                                    ->label((new Label(__('Only check the entries published since:'), Label::OL_TF))),
+                            ]),
+                        (new Note())
+                            ->class('form-note')
+                            ->text(__('Without date, all the entries are checked. With a date, older entries leave the list of links and files.')),
                         (new Para())
                             ->items([
                                 (new Textarea('ignored_domains', Html::escapeHTML($posted ? ManageVars::post('ignored_domains') : implode("\n", Checker::ignoredDomains()))))

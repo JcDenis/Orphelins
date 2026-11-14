@@ -16,7 +16,7 @@ use Dotclear\Database\Statement\SelectStatement;
  * Its progress is saved in the settings of the blog, so a step only needs to know there is a check going on.
  *
  * A check goes through three phases:
- * - entries: the addresses used by each entry are read, and the files of the media library looked for on the disk,
+ * - entries: the addresses used by each entry (all of them, or those published since the date of the options) are read, and the files of the media library looked for on the disk,
  * - links: each link waiting for its check is requested on the web,
  * - media: each media of the media library is looked for in the entries.
  *
@@ -53,6 +53,7 @@ class Checker
     public const SETTING_LAST    = 'last_check';
     public const SETTING_DOMAINS = 'ignored_domains';
     public const SETTING_DAYS    = 'recheck_days';
+    public const SETTING_SINCE   = 'since_date';
 
     /**
      * The phases of a check.
@@ -67,6 +68,13 @@ class Checker
     private const POSTS_BATCH = 50;
     private const MEDIA_BATCH = 200;
     private const LINKS_BATCH = 10;
+
+    /**
+     * The options saved by this page load.
+     *
+     * @var     array{}|array{ignored_domains: array<int, string>, recheck_days: int, since_date: string}    $saved
+     */
+    private static array $saved = [];
 
     /**
      * The progress of the check going on has been read.
@@ -112,7 +120,7 @@ class Checker
      */
     public static function ignoredDomains(): array
     {
-        return Http::domains((string) My::settings()->getStr(self::SETTING_DOMAINS, false));
+        return self::$saved[self::SETTING_DOMAINS] ?? Http::domains((string) My::settings()->getStr(self::SETTING_DOMAINS, false));
     }
 
     /**
@@ -120,9 +128,35 @@ class Checker
      */
     public static function recheckDays(): int
     {
+        if (isset(self::$saved[self::SETTING_DAYS])) {
+            return self::$saved[self::SETTING_DAYS];
+        }
+
         $days = My::settings()->getInt(self::SETTING_DAYS);
 
         return is_null($days) ? self::RECHECK_DAYS : min(max($days, 0), self::RECHECK_MAX);
+    }
+
+    /**
+     * Get the date since which entries are checked, from their publication date.
+     *
+     * @return  string  The date (YYYY-MM-DD), empty to check all the entries
+     */
+    public static function sinceDate(): string
+    {
+        return self::$saved[self::SETTING_SINCE] ?? self::cleanDate((string) My::settings()->getStr(self::SETTING_SINCE, false));
+    }
+
+    /**
+     * Clean a date typed by a user.
+     *
+     * @return  string  The date (YYYY-MM-DD), empty if this is not a date
+     */
+    public static function cleanDate(string $date): string
+    {
+        $date = trim($date);
+
+        return preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $match) === 1 && checkdate((int) $match[2], (int) $match[3], (int) $match[1]) ? $date : '';
     }
 
     /**
@@ -130,11 +164,20 @@ class Checker
      *
      * @param   string  $domains    The domains not to check
      * @param   int     $days       The number of days a link without problem is kept before being checked again
+     * @param   string  $since      The date since which entries are checked (YYYY-MM-DD), empty for all the entries
      */
-    public static function saveOptions(string $domains, int $days): void
+    public static function saveOptions(string $domains, int $days, string $since = ''): void
     {
-        My::settings()->put(self::SETTING_DOMAINS, implode("\n", Http::domains($domains)), App::blogWorkspace()::NS_STRING);
-        My::settings()->put(self::SETTING_DAYS, min(max($days, 0), self::RECHECK_MAX), App::blogWorkspace()::NS_INT);
+        // A saved setting is not read again by the same page load, and a check may start right after
+        self::$saved = [
+            self::SETTING_DOMAINS => Http::domains($domains),
+            self::SETTING_DAYS    => min(max($days, 0), self::RECHECK_MAX),
+            self::SETTING_SINCE   => self::cleanDate($since),
+        ];
+
+        My::settings()->put(self::SETTING_DOMAINS, implode("\n", self::$saved[self::SETTING_DOMAINS]), App::blogWorkspace()::NS_STRING);
+        My::settings()->put(self::SETTING_DAYS, self::$saved[self::SETTING_DAYS], App::blogWorkspace()::NS_INT);
+        My::settings()->put(self::SETTING_SINCE, self::$saved[self::SETTING_SINCE], App::blogWorkspace()::NS_STRING);
     }
 
     /**
@@ -145,6 +188,8 @@ class Checker
     public static function start(bool $full = false): void
     {
         Items::deleteStrayed();
+        // Entries published before the date of the options are not in the report anymore
+        Items::deleteBefore(self::sinceDate());
         Items::queueLinks($full ? 0 : self::recheckDays());
 
         self::save([
@@ -299,7 +344,7 @@ class Checker
     {
         do {
             $sql = new SelectStatement();
-            $rs  = self::postsQuery($sql)
+            $rs  = self::postsQuery($sql, self::sinceDate())
                 ->and('post_id > ' . $state['cursor'])
                 ->order('post_id ASC')
                 ->limit(self::POSTS_BATCH)
@@ -627,13 +672,21 @@ class Checker
 
     /**
      * Get the query of the entries of current blog: all types, all statuses.
+     *
+     * @param   string  $since  Limit to the entries published since this date (YYYY-MM-DD), empty for all
      */
-    private static function postsQuery(SelectStatement $sql): SelectStatement
+    private static function postsQuery(SelectStatement $sql, string $since = ''): SelectStatement
     {
-        return $sql
+        $sql
             ->columns(['post_id', 'post_excerpt_xhtml', 'post_content_xhtml'])
             ->from(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME)
             ->where('blog_id = ' . $sql->quote(App::blog()->id()));
+
+        if ($since !== '') {
+            $sql->and('post_dt >= ' . $sql->quote($since . ' 00:00:00'));
+        }
+
+        return $sql;
     }
 
     /**
@@ -650,11 +703,16 @@ class Checker
     private static function countPosts(): int
     {
         $sql = new SelectStatement();
-        $rs  = $sql
+        $sql
             ->column($sql->count('post_id'))
             ->from(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME)
-            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
-            ->select();
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()));
+
+        if (self::sinceDate() !== '') {
+            $sql->and('post_dt >= ' . $sql->quote(self::sinceDate() . ' 00:00:00'));
+        }
+
+        $rs = $sql->select();
 
         return $rs instanceof MetaRecord ? $rs->cardinal() : 0;
     }

@@ -40,6 +40,9 @@ Required Dotclear and PHP versions: see `_define.php`.
 * A blog setting saved with `put()` is not read again by the same page load: `Checker` keeps its state in memory.
 * `Http::check()` is a server side request to an address written by any author: keep the refusal of local and private
   addresses (the host of the blog is the only exception), and never let `HttpClient` follow redirections by itself.
+* Option `since_date`: only entries published since that date (`post_dt`) are read, and `Checker::start()` deletes the rows
+  of older entries. Unused media stay right because `Checker::isUsedElsewhere()` reads all the entries, whatever their date:
+  never limit it by date.
 * Statuses: `IGNORED` is a choice of the user and survives the checks; `SKIPPED` (ignored domain, local address) is evaluated
   again by each check. `Items::linkResult()` never changes an ignored row.
 * Links with the same address share their check (`item_hash`), one request per address.

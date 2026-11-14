@@ -599,6 +599,32 @@ class Items
     }
 
     /**
+     * Delete the items of the entries of current blog published before a date.
+     *
+     * @param   string  $date   The date (YYYY-MM-DD), nothing is deleted without date
+     */
+    public static function deleteBefore(string $date): void
+    {
+        if ($date === '') {
+            return;
+        }
+
+        $sub = new SelectStatement();
+        $sub
+            ->column('post_id')
+            ->from(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME)
+            ->where('blog_id = ' . $sub->quote(App::blog()->id()))
+            ->and('post_dt < ' . $sub->quote($date . ' 00:00:00'));
+
+        $sql = new DeleteStatement();
+        $sql
+            ->from(self::table())
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->and('post_id IN (' . $sub->statement() . ')')
+            ->delete();
+    }
+
+    /**
      * Get a text ready to be compared: lower case, without accents.
      */
     public static function normalize(string $text): string
