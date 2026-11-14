@@ -37,6 +37,8 @@ Required Dotclear and PHP versions: see `_define.php`.
 
 * A step must stay short: the page (or the maintenance task) calls `Checker::step()` again until it returns true.
   Never do the whole check in one request.
+* A step lasts seconds and the user may stop the check meanwhile: `Checker::step()` reads the state again in the database
+  (`stored()`) before saving, and gives up if the check was stopped or replaced (`started` is the identity of a check).
 * A blog setting saved with `put()` is not read again by the same page load: `Checker` keeps its state in memory.
 * `Http::check()` is a server side request to an address written by any author: keep the refusal of local and private
   addresses (the host of the blog is the only exception), and never let `HttpClient` follow redirections by itself.

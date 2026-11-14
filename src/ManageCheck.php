@@ -65,6 +65,10 @@ class ManageCheck
             }
 
             if (isset($_POST['step'])) {
+                if (!Checker::isRunning()) {
+                    // Stopped meanwhile, or an old page of a check shown again by the browser: nothing to continue
+                    My::redirect($params);
+                }
                 if (Checker::step()) {
                     App::backend()->notices()->addSuccessNotice(__('The check is finished.'));
                     My::redirect();

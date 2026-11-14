@@ -30,6 +30,13 @@ dotclear.ready(() => {
   // Check going on: next step, as soon as the page is shown
   const step = document.querySelector('#check-step-form');
   if (step) {
+    // Page shown again by the "back" button of the browser: it is an old one, which would not go on by itself
+    globalThis.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        globalThis.location.reload();
+      }
+    });
+
     const stop = step.querySelector('#stop');
     let stopped = false;
     stop?.addEventListener('click', () => {

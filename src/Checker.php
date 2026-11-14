@@ -197,7 +197,8 @@ class Checker
             'cursor'  => 0,
             'done'    => 0,
             'total'   => self::countPosts(),
-            'started' => time(),
+            // Also the identity of this check: see step()
+            'started' => (int) (microtime(true) * 1000),
         ]);
     }
 
@@ -221,13 +222,23 @@ class Checker
             return true;
         }
 
-        $end = microtime(true) + self::BUDGET;
+        $end     = microtime(true) + self::BUDGET;
+        $started = $state['started'];
 
         $state = match ($state['phase']) {
             self::PHASE_POSTS => self::stepPosts($state, $end),
             self::PHASE_LINKS => self::stepLinks($state, $end),
             default           => self::stepMedia($state, $end),
         };
+
+        // A step lasts several seconds: the check may have been stopped, or stopped and started again, by another page load.
+        // Then this step must not bring it back
+        $current = self::stored();
+        if ($current === null || $current['started'] !== $started) {
+            self::$state = $current;
+
+            return $current === null;
+        }
 
         if ($state === null) {
             My::settings()->put(self::SETTING_LAST, time(), App::blogWorkspace()::NS_INT);
@@ -753,7 +764,36 @@ class Checker
      */
     private static function read(): ?array
     {
-        $state = json_decode((string) My::settings()->getStr(self::SETTING_STATE, false), true);
+        return self::decode((string) My::settings()->getStr(self::SETTING_STATE, false));
+    }
+
+    /**
+     * Read the progress of the check going on from the database, as it is right now.
+     *
+     * The settings of the blog are read once per page load: they do not show what another page load has done since.
+     *
+     * @return  null|array{phase: string, cursor: int, done: int, total: int, started: int}
+     */
+    private static function stored(): ?array
+    {
+        $sql = new SelectStatement();
+        $rs  = $sql
+            ->column('setting_value')
+            ->from(App::db()->con()->prefix() . App::blogWorkspace()::NS_TABLE_NAME)
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->and('setting_ns = ' . $sql->quote(My::id()))
+            ->and('setting_id = ' . $sql->quote(self::SETTING_STATE))
+            ->select();
+
+        return $rs instanceof MetaRecord && $rs->fetch() ? self::decode($rs->strField('setting_value')) : null;
+    }
+
+    /**
+     * @return  null|array{phase: string, cursor: int, done: int, total: int, started: int}
+     */
+    private static function decode(string $value): ?array
+    {
+        $state = json_decode($value, true);
         if (!is_array($state)
             || !isset($state['phase'])
             || !in_array($state['phase'], [self::PHASE_POSTS, self::PHASE_LINKS, self::PHASE_MEDIA], true)
