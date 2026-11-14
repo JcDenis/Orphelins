@@ -1,13 +1,11 @@
 Orphelins 0.1 - 2026.11.14
 ===========================================================
-* [new] Add report of dead links, missing files and unused media, made by a check of the entries
-* [new] Add tool list_content_problems for the plugin ClaudetteMcp
-* [change] Split the report in two lists, links and files on one page and unused media on another one
-* [fix] Count as deleted an unused media whose file was already missing
-* [new] Add option to only check the entries published since a date
-* [fix] Do not bring back a check stopped while one of its steps was running
-* [change] Tell apart a check going on, a check left before its end and no check on the check page
-* [new] Add action to forget selected lines until the next check
-* [fix] Give room to the entry title in the list of links, and use singular and plural forms in messages
-* [docs] Add user guide in French, with screenshots
+* First release
+* Add report of dead links, missing files and unused media of the blog, in two lists with filters and display options
+* Add check of the entries by steps, with options: entries published since a date, domains not to check, days before a link is checked again
+* Add actions on selected lines: check again, ignore, forget until the next check, delete unused media from the media library
+* Add dashboard favorite giving the number of problems to fix
+* Add task for the plugin maintenance, with its reminders
+* Add tool list_content_problems for the plugin ClaudetteMcp
+* Add user guide in French, with screenshots, and admin help in English and French
 
