@@ -34,15 +34,35 @@ class ManageVars
     public const SORTBY = 'item_dt';
 
     /**
-     * The type filter values (no value means all types).
+     * The value of the request for the list of unused media (no value means the list of links and files).
+     *
+     * @var     string  PART_MEDIA
+     */
+    public const PART_MEDIA = 'media';
+
+    /**
+     * The ID of the filters and display options of the list of unused media.
+     *
+     * @var     string  FILTERS_MEDIA
+     */
+    public const FILTERS_MEDIA = 'OrphelinsMedia';
+
+    /**
+     * The type filter values of the list of links and files (no value means both).
      *
      * @var     array<string, int>  TYPES
      */
     public const TYPES = [
-        'link'  => Items::TYPE_LINK,
-        'file'  => Items::TYPE_FILE,
-        'media' => Items::TYPE_ORPHAN,
+        'link' => Items::TYPE_LINK,
+        'file' => Items::TYPE_FILE,
     ];
+
+    /**
+     * The fields the list of unused media can be sorted by.
+     *
+     * @var     array<int, string>  SORTS_MEDIA
+     */
+    public const SORTS_MEDIA = ['item_dt', 'item_url', 'item_status'];
 
     /**
      * The status filter values (no value means items to fix).
@@ -65,7 +85,12 @@ class ManageVars
     public readonly Filters $filters;
 
     /**
-     * The type to show, empty for all types.
+     * Show the list of unused media, else the list of links and files.
+     */
+    public readonly bool $media;
+
+    /**
+     * The type to show, empty for links and files.
      */
     public readonly string $type;
 
@@ -107,36 +132,43 @@ class ManageVars
     public function __construct()
     {
         // Sort and number per page options come from user preferences, see Backend
-        $this->filters = new Filters(My::id());
-        $this->filters->add([
-            FiltersLibrary::getPageFilter(),
-            FiltersLibrary::getSearchFilter(),
-            self::typeFilter(),
-            self::statusFilter(),
-        ]);
+        $this->media   = self::request('part') === self::PART_MEDIA;
+        $this->filters = new Filters($this->media ? self::FILTERS_MEDIA : My::id());
+        $this->filters->add(FiltersLibrary::getPageFilter());
+        $this->filters->add(FiltersLibrary::getSearchFilter());
+        if (!$this->media) {
+            $this->filters->add(self::typeFilter());
+        }
+        $this->filters->add(self::statusFilter());
 
         $nb     = (int) $this->value('nb');
         $sortby = $this->value('sortby');
         $type   = $this->value('type');
         $status = $this->value('status');
 
-        $this->type   = isset(self::TYPES[$type]) ? $type : '';
+        $this->type   = !$this->media && isset(self::TYPES[$type]) ? $type : '';
         $this->status = isset(self::STATUSES[$status]) ? $status : '';
         $this->query  = mb_substr(trim($this->value('q')), 0, 100);
         $this->page   = max(1, (int) $this->value('page'));
         $this->nb     = $nb > 0 ? $nb : self::PER_PAGE;
-        $this->sortby = in_array($sortby, Items::SORTS, true) ? $sortby : self::SORTBY;
+        $this->sortby = in_array($sortby, $this->media ? self::SORTS_MEDIA : Items::SORTS, true) ? $sortby : self::SORTBY;
         $this->desc   = $this->value('order') !== 'asc';
 
         $this->check = self::request('check') !== '';
     }
 
     /**
-     * Get the items type to show, 0 for all.
+     * Get the items types to show.
+     *
+     * @return  array<int, int>
      */
-    public function itemType(): int
+    public function itemTypes(): array
     {
-        return self::TYPES[$this->type] ?? 0;
+        if ($this->media) {
+            return [Items::TYPE_ORPHAN];
+        }
+
+        return isset(self::TYPES[$this->type]) ? [self::TYPES[$this->type]] : array_values(self::TYPES);
     }
 
     /**
@@ -160,6 +192,9 @@ class ManageVars
     {
         $order  = $this->desc ? 'desc' : 'asc';
         $params = [];
+        if ($this->media) {
+            $params['part'] = self::PART_MEDIA;
+        }
         if ($this->type !== '') {
             $params['type'] = $this->type;
         }
@@ -202,6 +237,20 @@ class ManageVars
     }
 
     /**
+     * Get the sort fields of the unused media list.
+     *
+     * @return  array<string, string>
+     */
+    public static function sortbyComboMedia(): array
+    {
+        return [
+            __('Last check') => 'item_dt',
+            __('Media')      => 'item_url',
+            __('Status')     => 'item_status',
+        ];
+    }
+
+    /**
      * Get the names of the items types.
      *
      * @return  array<int, string>
@@ -236,10 +285,9 @@ class ManageVars
         return (new Filter('type'))
             ->title(__('Type:'))
             ->options([
-                __('All types')     => '',
-                __('Links')         => 'link',
-                __('Files')         => 'file',
-                __('Unused media')  => 'media',
+                __('Links and files') => '',
+                __('Links')           => 'link',
+                __('Files')           => 'file',
             ])
             ->prime(true);
     }
@@ -252,13 +300,13 @@ class ManageVars
         return (new Filter('status'))
             ->title(__('Status:'))
             ->options([
-                __('To fix')       => '',
-                __('Problem')      => 'broken',
-                __('To verify')    => 'unsure',
-                __('Ignored')      => 'ignored',
+                __('To fix')          => '',
+                __('Problem')         => 'broken',
+                __('To verify')       => 'unsure',
+                __('Ignored')         => 'ignored',
                 __('Without problem') => 'ok',
-                __('Not checked')  => 'unchecked',
-                __('All statuses') => 'all',
+                __('Not checked')     => 'unchecked',
+                __('All statuses')    => 'all',
             ])
             ->prime(true);
     }

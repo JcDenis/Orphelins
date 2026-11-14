@@ -39,7 +39,8 @@ With the plugin [ClaudetteMcp](https://github.com/JcDenis/ClaudetteMcp), an AI a
 A check reads the entries of the blog whatever their type (posts, pages…) and their status. It goes on by steps of a few seconds,
 so it does not depend on the time limit of the server. It can be stopped: what was checked so far is kept.
 
-The list shows what is to fix, with a link to the entry to edit. Each line has a status:
+The result is in two lists, on two pages: _Links and files_, with a link to the entry to edit, and _Unused media_.
+Each list shows what is to fix. Each line has a status:
 
 | Status | Meaning |
 |---|---|
@@ -49,8 +50,8 @@ The list shows what is to fix, with a link to the entry to edit. Each line has a
 | Not checked | Link to a domain not to check or to a local address, or line waiting for the next check |
 | Ignored | You asked not to hear about this line anymore |
 
-Selected lines can be checked again (their entries are read again, so a fixed entry loses its problems), ignored,
-and unused media can be deleted from the media library, after a confirmation.
+Selected lines can be checked again (their entries are read again, so a fixed entry loses its problems) or ignored.
+Selected unused media can also be deleted from the media library, after a confirmation.
 
 Options of the check:
 

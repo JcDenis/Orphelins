@@ -12,8 +12,10 @@ use Dotclear\Helper\Html\Form\Caption;
 use Dotclear\Helper\Html\Form\Checkbox;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Hidden;
 use Dotclear\Helper\Html\Form\Img;
 use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Li;
 use Dotclear\Helper\Html\Form\Link;
 use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Option;
@@ -27,6 +29,7 @@ use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Form\Th;
 use Dotclear\Helper\Html\Form\Thead;
 use Dotclear\Helper\Html\Form\Tr;
+use Dotclear\Helper\Html\Form\Ul;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Process\TraitProcess;
 use Exception;
@@ -36,10 +39,10 @@ use Throwable;
  * @brief       Orphelins report management.
  * @ingroup     Orphelins
  *
- * The result of the last check of current blog: dead links, missing files and unused media.
+ * The result of the last check of current blog, in two lists on two pages (pseudo tabs):
+ * the links and the files of the entries, and the unused media of the media library.
  *
- * This page is the list. The check is started and followed on another page,
- * opened by the button on top of the list.
+ * The check is started and followed on another page, opened by the button on top of the lists.
  *
  * @author      Jean-Christian Paul Denis
  * @copyright   AGPL-3.0
@@ -97,7 +100,11 @@ class Manage
                     }
                 }
 
-                $items = Items::getByIds($ids);
+                // Only lines of the list shown
+                $items = array_values(array_filter(
+                    Items::getByIds($ids),
+                    fn (Item $item): bool => in_array($item->type, $vars->itemTypes(), true)
+                ));
                 if ($items === []) {
                     throw new Exception(__('No line selected.'));
                 }
@@ -119,6 +126,9 @@ class Manage
 
                         break;
                     case 'delete':
+                        if (!$vars->media) {
+                            throw new Exception(__('Unknown action.'));
+                        }
                         $message = self::deleteMedia($items);
 
                         break;
@@ -149,17 +159,41 @@ class Manage
         }
 
         $vars  = self::$vars;
-        $total = Items::count($vars->itemType(), $vars->itemStatuses(), $vars->query);
+        $total = Items::count($vars->itemTypes(), $vars->itemStatuses(), $vars->query);
         $page  = min($vars->page, max(1, (int) ceil($total / $vars->nb)));
-        $items = Items::search($vars->itemType(), $vars->itemStatuses(), $vars->query, $vars->nb, ($page - 1) * $vars->nb, $vars->sortby, $vars->desc);
+        $items = Items::search($vars->itemTypes(), $vars->itemStatuses(), $vars->query, $vars->nb, ($page - 1) * $vars->nb, $vars->sortby, $vars->desc);
+        $part  = $vars->media ? ['part' => ManageVars::PART_MEDIA] : [];
 
-        App::backend()->page()->openModule(My::name(), self::head() . $vars->filters->js(My::manageUrl([], '&')));
+        App::backend()->page()->openModule(My::name(), self::head() . $vars->filters->js(My::manageUrl($part, '&')));
 
         echo
         App::backend()->page()->breadcrumb([
             Html::escapeHTML(App::blog()->name()) => '',
             My::name()                            => '',
         ]) .
+        // The two lists of the plugin are two pages
+        (new Div())
+            ->class('pseudo-tabs')
+            ->items([
+                (new Ul())
+                    ->items([
+                        (new Li())
+                            ->class($vars->media ? '' : 'active')
+                            ->items([
+                                (new Link())
+                                    ->href(My::manageUrl())
+                                    ->text(__('Links and files')),
+                            ]),
+                        (new Li())
+                            ->class($vars->media ? 'active' : '')
+                            ->items([
+                                (new Link())
+                                    ->href(My::manageUrl(['part' => ManageVars::PART_MEDIA]))
+                                    ->text(__('Unused media')),
+                            ]),
+                    ]),
+            ])
+            ->render() .
         App::backend()->notices()->getNotices() .
         (new Para())
             ->class('new-stuff')
@@ -173,7 +207,7 @@ class Manage
         self::summary()->render();
 
         // Filters and display options, folded like in other lists of Dotclear
-        $vars->filters->display('admin.plugin.' . My::id());
+        $vars->filters->display('admin.plugin.' . My::id(), $vars->media ? (new Hidden('part', ManageVars::PART_MEDIA))->render() : '');
 
         if ($items === []) {
             if ($vars->filters->show()) {
@@ -197,7 +231,7 @@ class Manage
             $pager->getLinks();
         }
 
-        App::backend()->page()->helpBlock(My::id());
+        App::backend()->page()->helpBlock($vars->media ? My::id() . '-media' : My::id());
 
         App::backend()->page()->closeModule();
     }
@@ -232,9 +266,34 @@ class Manage
     }
 
     /**
-     * Get the result of the check of an item, in words.
+     * Get the result of the check of an item, in one or two words.
      */
     public static function info(Item $item): string
+    {
+        if ($item->status === Items::STATUS_PENDING) {
+            return __('Waiting');
+        }
+
+        return match (explode(' ', $item->info, 2)[0]) {
+            Items::INFO_HTTP      => sprintf(__('HTTP %s'), $item->code),
+            Items::INFO_REDIRECT  => $item->status === Items::STATUS_OK ? __('Redirected') : __('Dead redirection'),
+            Items::INFO_REDIRECTS => __('Redirection loop'),
+            Items::INFO_HOST      => __('Unknown site'),
+            Items::INFO_CONNECT   => __('No answer'),
+            Items::INFO_TIMEOUT   => __('Too slow'),
+            Items::INFO_DOMAIN    => __('Ignored domain'),
+            Items::INFO_LOCAL     => __('Local address'),
+            Items::INFO_FOUND     => __('Found'),
+            Items::INFO_MISSING   => __('Missing'),
+            Items::INFO_UNUSED    => __('Unused'),
+            default               => '',
+        };
+    }
+
+    /**
+     * Get the result of the check of an item, in a sentence.
+     */
+    public static function infoDetail(Item $item): string
     {
         if ($item->status === Items::STATUS_PENDING) {
             return __('Waiting for its check');
@@ -328,7 +387,7 @@ class Manage
     }
 
     /**
-     * Get the summary of the last check.
+     * Get the summary of the last check, for the list shown.
      */
     private static function summary(): Note
     {
@@ -340,15 +399,12 @@ class Manage
 
         $counts = Items::counts();
         $count  = fn (int $type): int => $counts[$type][Items::STATUS_BROKEN] + $counts[$type][Items::STATUS_UNSURE];
+        $date   = Html::escapeHTML(self::date(date('Y-m-d H:i:s', $last)));
 
         return (new Note())
-            ->text(sprintf(
-                __('Last check: %1$s. To fix: %2$s links, %3$s missing files, %4$s unused media.'),
-                Html::escapeHTML(self::date(date('Y-m-d H:i:s', $last))),
-                $count(Items::TYPE_LINK),
-                $count(Items::TYPE_FILE),
-                $count(Items::TYPE_ORPHAN)
-            ));
+            ->text(self::$vars->media ?
+                sprintf(__('Last check: %1$s. To fix: %2$s unused media.'), $date, $count(Items::TYPE_ORPHAN)) :
+                sprintf(__('Last check: %1$s. To fix: %2$s links, %3$s missing files.'), $date, $count(Items::TYPE_LINK), $count(Items::TYPE_FILE)));
     }
 
     /**
@@ -363,64 +419,89 @@ class Manage
         foreach ($items as $item) {
             [$status, $image, $class] = self::statusLabel($item->status);
 
-            if ($item->type === Items::TYPE_ORPHAN) {
-                // The media page of the core shows the media and allows to check it by hand
-                $href  = App::backend()->url()->get('admin.media.item', ['id' => $item->media_id]);
-                $size  = @filesize(App::media()->getRoot() . '/' . $item->url);
-                $where = (new Text(null, $size === false ? '' : Html::escapeHTML(Files::size($size))));
+            $url  = mb_strlen($item->url) > self::URL_LENGTH ? mb_substr($item->url, 0, self::URL_LENGTH - 1) . '…' : $item->url;
+            $cols = [
+                (new Td())
+                    ->class(['nowrap', 'minimal'])
+                    ->items([
+                        (new Checkbox(['items[]', 'items_' . $item->id]))
+                            ->value($item->id)
+                            ->title(__('Select this line')),
+                    ]),
+                (new Td())
+                    ->class('maximal')
+                    ->items([
+                        (new Link())
+                            // The media page of the core shows the media and allows to check it by hand
+                            ->href($vars->media ? App::backend()->url()->get('admin.media.item', ['id' => $item->media_id]) : Html::escapeHTML($item->url))
+                            ->title(Html::escapeHTML($item->url))
+                            ->text(Html::escapeHTML($url)),
+                    ]),
+            ];
+
+            if ($vars->media) {
+                $size   = @filesize(App::media()->getRoot() . '/' . $item->url);
+                $cols[] = (new Td())
+                    ->class('nowrap')
+                    ->text($size === false ? Html::escapeHTML(__('Missing')) : Html::escapeHTML(Files::size($size)));
             } else {
-                $href  = Html::escapeHTML($item->url);
-                $where = (new Link())
-                    ->href(App::postTypes()->get($item->post_type)->adminUrl($item->post_id))
-                    ->title(__('Edit this entry'))
-                    ->text(Html::escapeHTML($item->post_title));
+                $cols[] = (new Td())
+                    ->class('nowrap')
+                    ->text($types[$item->type] ?? '');
+                $cols[] = (new Td())
+                    ->items([
+                        (new Link())
+                            ->href(App::postTypes()->get($item->post_type)->adminUrl($item->post_id))
+                            ->title(__('Edit this entry'))
+                            ->text(Html::escapeHTML($item->post_title)),
+                    ]);
+                $cols[] = (new Td())
+                    ->class('nowrap')
+                    ->title(Html::escapeHTML(self::infoDetail($item)))
+                    ->text(Html::escapeHTML(self::info($item)));
             }
 
-            $url = mb_strlen($item->url) > self::URL_LENGTH ? mb_substr($item->url, 0, self::URL_LENGTH - 1) . '…' : $item->url;
+            $cols[] = (new Td())
+                ->class('nowrap')
+                ->text(Html::escapeHTML(self::date($item->checked)));
+            $cols[] = (new Td())
+                ->class(['nowrap', 'status'])
+                ->items([
+                    (new Img($image))
+                        ->class(['mark', $class])
+                        ->alt($status),
+                    (new Text(null, $status)),
+                ]);
 
             $rows[] = (new Tr('item_' . $item->id))
                 ->class(in_array($item->status, [Items::STATUS_IGNORED, Items::STATUS_SKIPPED], true) ? ['line', 'offline'] : 'line')
-                ->cols([
-                    (new Td())
-                        ->class(['nowrap', 'minimal'])
-                        ->items([
-                            (new Checkbox(['items[]', 'items_' . $item->id]))
-                                ->value($item->id)
-                                ->title(__('Select this line')),
-                        ]),
-                    (new Td())
-                        ->class('maximal')
-                        ->items([
-                            (new Link())
-                                ->href($href)
-                                ->title(Html::escapeHTML($item->url))
-                                ->text(Html::escapeHTML($url)),
-                        ]),
-                    (new Td())
-                        ->class('nowrap')
-                        ->text($types[$item->type] ?? ''),
-                    (new Td())
-                        ->items([$where]),
-                    (new Td())
-                        ->text(Html::escapeHTML(self::info($item))),
-                    (new Td())
-                        ->class('nowrap')
-                        ->text(Html::escapeHTML(self::date($item->checked))),
-                    (new Td())
-                        ->class(['nowrap', 'status'])
-                        ->items([
-                            (new Img($image))
-                                ->class(['mark', $class])
-                                ->alt($status),
-                            (new Text(null, $status)),
-                        ]),
-                ]);
+                ->cols($cols);
         }
 
         if ($vars->filters->show()) {
             $caption = sprintf(__('List of %s lines matching the filter.'), $total);
+        } elseif ($vars->media) {
+            $caption = sprintf(__('List of unused media (%s)'), $total);
         } else {
-            $caption = sprintf(__('List of links, files and media to fix (%s)'), $total);
+            $caption = sprintf(__('List of links and files to fix (%s)'), $total);
+        }
+
+        $heads = $vars->media ? [
+            (new Th())->text(__('Media'))->scope('col')->colspan(2)->class('first'),
+            (new Th())->text(__('Size'))->scope('col'),
+        ] : [
+            (new Th())->text(__('Address'))->scope('col')->colspan(2)->class('first'),
+            (new Th())->text(__('Type'))->scope('col'),
+            (new Th())->text(__('Entry'))->scope('col'),
+            (new Th())->text(__('Result'))->scope('col'),
+        ];
+
+        $actions = [
+            new Option(__('Check again'), 'recheck'),
+            new Option(__('Ignore'), 'ignore'),
+        ];
+        if ($vars->media) {
+            $actions[] = new Option(__('Delete from the media library'), 'delete');
         }
 
         return (new Form('items-form'))
@@ -436,10 +517,7 @@ class Manage
                                 ->rows([
                                     (new Tr())
                                         ->cols([
-                                            (new Th())->text(__('Address'))->scope('col')->colspan(2)->class('first'),
-                                            (new Th())->text(__('Type'))->scope('col'),
-                                            (new Th())->text(__('Entry'))->scope('col'),
-                                            (new Th())->text(__('Result'))->scope('col'),
+                                            ...$heads,
                                             (new Th())->text(__('Last check'))->scope('col'),
                                             (new Th())->text(__('Status'))->scope('col'),
                                         ]),
@@ -455,11 +533,7 @@ class Manage
                             ->class(['col', 'right', 'form-buttons'])
                             ->items([
                                 (new Select('action'))
-                                    ->items([
-                                        new Option(__('Check again'), 'recheck'),
-                                        new Option(__('Ignore'), 'ignore'),
-                                        new Option(__('Delete the media from the media library'), 'delete'),
-                                    ])
+                                    ->items($actions)
                                     ->label((new Label(__('Selected lines action:'), Label::IL_TF))),
                                 (new Submit('do-action', __('ok'))),
                                 ... My::hiddenFields(),

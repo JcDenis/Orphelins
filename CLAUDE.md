@@ -25,8 +25,9 @@ Required Dotclear and PHP versions: see `_define.php`.
 * `src/Http.php`: check of a link with the core `HttpClient`; refuses local and private addresses, follows redirections itself.
 * `src/Install.php`: table structure. A change of the table needs a migration there.
 * `src/My.php`: no permission of its own, `My::isAllowed()` is the core permission `contentadmin` on the current blog.
-* `src/Manage.php` (list, filters, actions on selected lines), `ManageCheck.php` (start and follow a check, options),
-  `ManageVars.php` (filters and display options); `js/manage.js`.
+* `src/Manage.php`: two lists on two pages linked by pseudo tabs, links and files (default) and unused media (`part=media`),
+  each with its filters, its display options (`Orphelins` and `OrphelinsMedia`) and its actions on selected lines.
+  `ManageCheck.php` (start and follow a check, options), `ManageVars.php` (request values); `js/manage.js`.
 * `src/BackendBehaviors.php`: filters options (`adminFiltersListsV3`), dashboard favorite with the number of problems,
   task of the plugin maintenance (`dcMaintenanceInit`, `src/Maintenance/CheckTask.php`).
 * `src/ClaudetteMcp/ListContentProblems.php`: tool `list_content_problems`, registered in `src/Frontend.php`
@@ -47,6 +48,7 @@ Required Dotclear and PHP versions: see `_define.php`.
   When in doubt a media is "used": a false unused media may end deleted.
 * Media are only deleted from the admin page, on selected lines, after a new look for each one, by `App::media()->removeFile()`
   which checks the media permissions. No automatic deletion, no deletion by the MCP tool.
+* The column "Result" is one or two words in `nowrap` (`Manage::info()`), the sentence is its title (`Manage::infoDetail()`).
 * Text search is done in PHP (`Items::match()`), not in SQL: same result on MySQL, PostgreSQL and SQLite.
 * MCP tool: one read only tool, permission checked in `available()`, names and descriptions in English, not translated.
 * `Frontend::init()` must not be limited to some URL types, or the tool is never registered.

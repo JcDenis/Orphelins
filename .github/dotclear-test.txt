@@ -1,2 +1,3 @@
 admin:index.php?process=Plugin&p=Orphelins&status=all&type=link&q=test&sortby=item_url&order=asc&nb=10
+admin:index.php?process=Plugin&p=Orphelins&part=media&status=all&q=test&sortby=item_url&order=asc&nb=10
 admin:index.php?process=Plugin&p=Orphelins&check=1

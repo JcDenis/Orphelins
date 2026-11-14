@@ -23,7 +23,7 @@ use Dotclear\Plugin\Orphelins\Maintenance\CheckTask;
 class BackendBehaviors
 {
     /**
-     * Display options of the items list (sort and number per page), also set from user preferences.
+     * Display options of the two lists (sort and number per page), also set from user preferences.
      *
      * @param   ArrayObject<int, mixed>     $filters    The lists options
      */
@@ -36,6 +36,15 @@ class BackendBehaviors
             ManageVars::SORTBY,
             'desc',
             __('lines per page'),
+            ManageVars::PER_PAGE
+        ));
+        $filters->append(new UserPrefFilter(
+            ManageVars::FILTERS_MEDIA,
+            __('Unused media'),
+            ManageVars::sortbyComboMedia(),
+            ManageVars::SORTBY,
+            'desc',
+            __('media per page'),
             ManageVars::PER_PAGE
         ));
 

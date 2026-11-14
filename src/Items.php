@@ -193,20 +193,20 @@ class Items
      */
     public static function countProblems(): int
     {
-        return self::count(0, self::PROBLEMS);
+        return self::count([], self::PROBLEMS);
     }
 
     /**
      * Count items of current blog.
      *
-     * @param   int                 $type       The type, 0 for all
+     * @param   array<int, int>     $types      The types, none for all
      * @param   array<int, int>     $statuses   The statuses, none for all
      * @param   string              $query      Some text to find in the address or in the entry title, whatever the case and the accents
      */
-    public static function count(int $type = 0, array $statuses = [], string $query = ''): int
+    public static function count(array $types = [], array $statuses = [], string $query = ''): int
     {
         if (trim($query) !== '') {
-            return count(self::match(self::search($type, $statuses), $query));
+            return count(self::match(self::search($types, $statuses), $query));
         }
 
         $sql = new SelectStatement();
@@ -214,7 +214,7 @@ class Items
             ->column($sql->count('I.item_id'))
             ->from($sql->as(self::table(), 'I'));
 
-        self::filter($sql, $type, $statuses);
+        self::filter($sql, $types, $statuses);
 
         $rs = $sql->select();
 
@@ -226,7 +226,7 @@ class Items
      *
      * Without sort field, items to fix come first, then the last checked ones.
      *
-     * @param   int                 $type       The type, 0 for all
+     * @param   array<int, int>     $types      The types, none for all
      * @param   array<int, int>     $statuses   The statuses, none for all
      * @param   string              $query      Some text to find in the address or in the entry title, whatever the case and the accents
      * @param   int                 $limit      The maximum number of items, 0 for all
@@ -236,11 +236,11 @@ class Items
      *
      * @return  array<int, Item>
      */
-    public static function search(int $type = 0, array $statuses = [], string $query = '', int $limit = 0, int $offset = 0, string $sortby = '', bool $desc = true): array
+    public static function search(array $types = [], array $statuses = [], string $query = '', int $limit = 0, int $offset = 0, string $sortby = '', bool $desc = true): array
     {
         if (trim($query) !== '') {
             // The text is not searched by the database: case, accents and escaping of LIKE differ from one database to another
-            $items = self::match(self::search($type, $statuses, '', 0, 0, $sortby, $desc), $query);
+            $items = self::match(self::search($types, $statuses, '', 0, 0, $sortby, $desc), $query);
 
             return $limit > 0 ? array_slice($items, max(0, $offset), $limit) : $items;
         }
@@ -258,7 +258,7 @@ class Items
             $sql->order(['I.item_status ASC', 'I.item_dt DESC', 'I.item_id DESC']);
         }
 
-        self::filter($sql, $type, $statuses);
+        self::filter($sql, $types, $statuses);
 
         if ($limit > 0) {
             $sql->limit([max(0, $offset), $limit]);
@@ -412,7 +412,7 @@ class Items
      */
     public static function countPendingLinks(): int
     {
-        return self::count(self::TYPE_LINK, [self::STATUS_PENDING]);
+        return self::count([self::TYPE_LINK], [self::STATUS_PENDING]);
     }
 
     /**
@@ -652,16 +652,17 @@ class Items
     }
 
     /**
-     * Limit a query to current blog, a type and some statuses.
+     * Limit a query to current blog, some types and some statuses.
      *
+     * @param   array<int, int>     $types      The types, none for all
      * @param   array<int, int>     $statuses   The statuses, none for all
      */
-    private static function filter(SelectStatement $sql, int $type, array $statuses): void
+    private static function filter(SelectStatement $sql, array $types, array $statuses): void
     {
         $sql->where('I.blog_id = ' . $sql->quote(App::blog()->id()));
 
-        if ($type > 0) {
-            $sql->and('I.item_type = ' . $type);
+        if ($types !== []) {
+            $sql->and('I.item_type' . $sql->in(array_values(array_map(intval(...), $types)), 'int'));
         }
 
         if ($statuses !== []) {

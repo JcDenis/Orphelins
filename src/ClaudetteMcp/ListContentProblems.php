@@ -134,6 +134,7 @@ class ListContentProblems extends McpTool
             throw new McpToolException('Unknown status, use one of: ' . implode(', ', array_keys(self::STATUSES)));
         }
 
+        $types = isset(self::TYPES[$type]) ? [self::TYPES[$type]] : [];
         $query = $this->str($args, 'search');
         $page  = $this->int($args, 'page', 1, 1);
         $last  = Checker::lastCheck();
@@ -154,12 +155,12 @@ class ListContentProblems extends McpTool
             'last_check'    => $last > 0 ? $this->date(date('Y-m-d H:i:s', $last)) : null,
             'check_running' => Checker::isRunning(),
             'summary'       => $summary,
-            'total'         => Items::count(self::TYPES[$type] ?? 0, self::STATUSES[$status], $query),
+            'total'         => Items::count($types, self::STATUSES[$status], $query),
             'page'          => $page,
             'limit'         => self::PER_PAGE,
             'lines'         => array_map(
                 $this->describe(...),
-                Items::search(self::TYPES[$type] ?? 0, self::STATUSES[$status], $query, self::PER_PAGE, ($page - 1) * self::PER_PAGE)
+                Items::search($types, self::STATUSES[$status], $query, self::PER_PAGE, ($page - 1) * self::PER_PAGE)
             ),
         ];
     }

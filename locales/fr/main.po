@@ -39,9 +39,6 @@ msgstr "Adresse"
 msgid "All statuses"
 msgstr "Tous les états"
 
-msgid "All types"
-msgstr "Tous les types"
-
 msgid "Answer of the site: %s"
 msgstr "Réponse du site : %s"
 
@@ -65,9 +62,6 @@ msgstr "Vérifier les liens et les médias des billets"
 
 msgid "Continue"
 msgstr "Continuer"
-
-msgid "Delete the media from the media library"
-msgstr "Supprimer le média de la médiathèque"
 
 msgid "Domain not to check"
 msgstr "Domaine à ne pas vérifier"
@@ -105,9 +99,6 @@ msgstr "Ignoré"
 msgid "Last check"
 msgstr "Dernière vérification"
 
-msgid "Last check: %1$s. To fix: %2$s links, %3$s missing files, %4$s unused media."
-msgstr "Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents, %4$s médias inutilisés."
-
 msgid "Last check: %s."
 msgstr "Dernière vérification : %s."
 
@@ -125,9 +116,6 @@ msgstr "Liens"
 
 msgid "List of %s lines matching the filter."
 msgstr "Liste des %s lignes correspondant au filtre."
-
-msgid "List of links, files and media to fix (%s)"
-msgstr "Liste des liens, fichiers et médias à corriger (%s)"
 
 msgid "Local address, not checked"
 msgstr "Adresse locale, non vérifiée"
@@ -262,7 +250,7 @@ msgid "Unknown action."
 msgstr "Action inconnue."
 
 msgid "Unused media"
-msgstr "Média inutilisé"
+msgstr "Médias inutilisés"
 
 msgid "Used by no entry"
 msgstr "Utilisé par aucun billet"
@@ -275,6 +263,72 @@ msgstr "Sans problème"
 
 msgid "lines per page"
 msgstr "lignes par page"
+
+msgid "Links and files"
+msgstr "Liens et fichiers"
+
+msgid "Media"
+msgstr "Média"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "media per page"
+msgstr "médias par page"
+
+msgid "Waiting"
+msgstr "En attente"
+
+msgid "HTTP %s"
+msgstr "HTTP %s"
+
+msgid "Redirected"
+msgstr "Redirigé"
+
+msgid "Dead redirection"
+msgstr "Redirection morte"
+
+msgid "Redirection loop"
+msgstr "Boucle"
+
+msgid "Unknown site"
+msgstr "Site inconnu"
+
+msgid "No answer"
+msgstr "Sans réponse"
+
+msgid "Too slow"
+msgstr "Trop lent"
+
+msgid "Ignored domain"
+msgstr "Domaine ignoré"
+
+msgid "Local address"
+msgstr "Adresse locale"
+
+msgid "Found"
+msgstr "Trouvé"
+
+msgid "Missing"
+msgstr "Absent"
+
+msgid "Unused"
+msgstr "Inutilisé"
+
+msgid "Last check: %1$s. To fix: %2$s unused media."
+msgstr "Dernière vérification : %1$s. À corriger : %2$s médias inutilisés."
+
+msgid "Last check: %1$s. To fix: %2$s links, %3$s missing files."
+msgstr "Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents."
+
+msgid "List of unused media (%s)"
+msgstr "Liste des médias inutilisés (%s)"
+
+msgid "List of links and files to fix (%s)"
+msgstr "Liste des liens et fichiers à corriger (%s)"
+
+msgid "Delete from the media library"
+msgstr "Supprimer de la médiathèque"
 
 msgid "One problem to fix"
 msgid_plural "%d problems to fix"

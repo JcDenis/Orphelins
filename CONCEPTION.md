@@ -100,12 +100,19 @@ ne serve pas à explorer le réseau du serveur :
 
 Une page du plugin dans le menu Blog, construite comme les listes du cœur :
 
-* la page du plugin est la liste de ce qui est à corriger, avec pagination et résumé de la dernière vérification ;
-* le bloc « Filtres et options d'affichage » du cœur la limite à un type, à un état ou à un texte (adresse ou titre du billet),
-  et règle le tri et le nombre de lignes par page (behavior `adminFiltersListsV3`) ;
+* **deux listes sur deux pages**, reliées par les pseudo-onglets du cœur : « Liens et fichiers » (la page du plugin)
+  et « Médias inutilisés ». Mélanger les deux dans une seule liste n'allait pas : les colonnes ne sont pas les mêmes
+  (billet et résultat d'un côté, taille de l'autre), les actions non plus (on ne supprime que des médias), et on ne traite pas
+  les deux au même moment ;
+* chaque liste montre ce qui est à corriger, avec pagination et résumé de la dernière vérification ;
+* le bloc « Filtres et options d'affichage » du cœur la limite à un type (liens ou fichiers), à un état ou à un texte
+  (adresse ou titre du billet), et règle le tri et le nombre de lignes par page ; chaque liste a ses propres options
+  (behavior `adminFiltersListsV3`) ;
+* la colonne « Résultat » tient en un ou deux mots (« HTTP 404 », « Site inconnu », « Redirigé ») ; le détail
+  (l'adresse de redirection par exemple) est dans l'infobulle ;
 * un bouton « Nouvelle vérification » en haut de page mène à la page de la vérification : options, lancement, suivi et arrêt ;
 * des actions groupées : vérifier à nouveau (relit les billets concernés, donc un billet corrigé perd ses problèmes ;
-  sert aussi à ne plus ignorer une ligne), ignorer, supprimer le média de la médiathèque ;
+  sert aussi à ne plus ignorer une ligne), ignorer, et pour les médias seulement, supprimer de la médiathèque ;
 * avant de supprimer un média, il est recherché une nouvelle fois dans les billets : la liste peut être ancienne.
 
 Un favori du tableau de bord donne le nombre de problèmes à corriger.
