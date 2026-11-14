@@ -265,7 +265,8 @@ continuée par la tâche. La tâche est réservée aux personnes qui ont accès 
 
 L'intérêt de la tâche est le rappel : dans l'onglet _Réglage des alertes_ du plugin Maintenance, vous pouvez
 activer les messages d'alerte et choisir un délai : Dotclear vous prévient alors
-qu'il est temps de la refaire. Rien ne se lance tout seul : Dotclear n'a pas de tâches planifiées, et le plugin n'en ajoute pas.
+qu'il est temps de la refaire. Le délai repart de la dernière vérification terminée, qu'elle ait été faite ici ou depuis
+la page du plugin. Rien ne se lance tout seul : Dotclear n'a pas de tâches planifiées, et le plugin n'en ajoute pas.
 
 ## Avec un assistant IA
 
