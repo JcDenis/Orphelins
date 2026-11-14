@@ -56,7 +56,7 @@ class Manage
      *
      * @var     int     URL_LENGTH
      */
-    private const URL_LENGTH = 90;
+    private const URL_LENGTH = 70;
 
     private static ManageVars $vars;
 
@@ -126,9 +126,10 @@ class Manage
                         // Also the way to stop ignoring a line
                         Items::setStatus($ids, Items::STATUS_PENDING);
                         $left    = Checker::recheck(Items::getByIds($ids));
-                        $message = $left > 0 ?
-                            sprintf(__('Selected lines have been checked again, but %s links are still waiting: they will be checked by the next check.'), $left) :
-                            __('Selected lines have been checked again.');
+                        $message = __('Selected lines have been checked again.');
+                        if ($left > 0) {
+                            $message .= ' ' . sprintf(__('%d link is still waiting for the next check.', '%d links are still waiting for the next check.', $left), $left);
+                        }
 
                         break;
                     case 'delete':
@@ -393,9 +394,12 @@ class Manage
             throw new Exception($error !== '' ? $error : __('Selected media are used by an entry since the last check: they have not been deleted.'));
         }
 
-        return $kept > 0 ?
-            sprintf(__('%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed).'), $deleted, $kept) :
-            sprintf(__('%s media deleted.'), $deleted);
+        $message = sprintf(__('%d media file deleted.', '%d media files deleted.', $deleted), $deleted);
+        if ($kept > 0) {
+            $message .= ' ' . sprintf(__('%d media file kept (used since the last check, ignored or not allowed).', '%d media files kept (used since the last check, ignored or not allowed).', $kept), $kept);
+        }
+
+        return $message;
     }
 
     /**
@@ -413,10 +417,13 @@ class Manage
         $count  = fn (int $type): int => $counts[$type][Items::STATUS_BROKEN] + $counts[$type][Items::STATUS_UNSURE];
         $date   = Html::escapeHTML(self::date(date('Y-m-d H:i:s', $last)));
 
+        $number = fn (int $type, string $one, string $many): string => sprintf(__($one, $many, $count($type)), $count($type));
+        $to_fix = self::$vars->media ?
+            [$number(Items::TYPE_ORPHAN, '%d unused media file', '%d unused media files')] :
+            [$number(Items::TYPE_LINK, '%d link', '%d links'), $number(Items::TYPE_FILE, '%d missing file', '%d missing files')];
+
         return (new Note())
-            ->text(self::$vars->media ?
-                sprintf(__('Last check: %1$s. To fix: %2$s unused media.'), $date, $count(Items::TYPE_ORPHAN)) :
-                sprintf(__('Last check: %1$s. To fix: %2$s links, %3$s missing files.'), $date, $count(Items::TYPE_LINK), $count(Items::TYPE_FILE)));
+            ->text(sprintf(__('Last check: %1$s. To fix: %2$s.'), $date, implode(', ', $to_fix)));
     }
 
     /**
@@ -441,7 +448,8 @@ class Manage
                             ->title(__('Select this line')),
                     ]),
                 (new Td())
-                    ->class('maximal')
+                    // On the list of links, the entry title needs room too
+                    ->class($vars->media ? 'maximal' : '')
                     ->items([
                         (new Link())
                             // The media page of the core shows the media and allows to check it by hand
@@ -491,7 +499,7 @@ class Manage
         }
 
         if ($vars->filters->show()) {
-            $caption = sprintf(__('List of %s lines matching the filter.'), $total);
+            $caption = sprintf(__('List of %d line matching the filter.', 'List of %d lines matching the filter.', $total), $total);
         } elseif ($vars->media) {
             $caption = sprintf(__('List of unused media (%s)'), $total);
         } else {

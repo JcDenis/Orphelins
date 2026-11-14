@@ -19,6 +19,8 @@ use Dotclear\Helper\Html\Form\Submit;
 use Dotclear\Helper\Html\Form\Textarea;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Process\TraitProcess;
+use Dotclear\Plugin\maintenance\Maintenance;
+use Dotclear\Plugin\Orphelins\Maintenance\CheckTask;
 use Exception;
 
 /**
@@ -74,6 +76,10 @@ class ManageCheck
                     My::redirect($params);
                 }
                 if (Checker::step()) {
+                    // The plugin maintenance reminds to do the check again from time to time: it starts counting from this one too
+                    if (App::plugins()->moduleExists('maintenance')) {
+                        (new Maintenance())->setLog(CheckTask::ID);
+                    }
                     App::backend()->notices()->addSuccessNotice(__('The check is finished.'));
                     My::redirect();
                 }

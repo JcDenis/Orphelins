@@ -22,9 +22,16 @@ use Dotclear\Plugin\Orphelins\My;
 class CheckTask extends MaintenanceTask
 {
     /**
+     * Task ID.
+     *
+     * @var     string  ID
+     */
+    public const ID = 'OrphelinsCheck';
+
+    /**
      * Task ID (class name).
      */
-    protected ?string $id = 'OrphelinsCheck';
+    protected ?string $id = self::ID;
 
     /**
      * Task use AJAX.

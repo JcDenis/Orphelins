@@ -56,6 +56,9 @@ Required Dotclear and PHP versions: see `_define.php`.
 * Media are only deleted from the admin page, on selected lines, after a new look for each one, by `App::media()->removeFile()`
   which checks the media permissions. No automatic deletion, no deletion by the MCP tool.
 * The column "Result" is one or two words in `nowrap` (`Manage::info()`), the sentence is its title (`Manage::infoDetail()`).
+* Messages with a number use the plural form of `__()` with two different English texts and `%d` in both
+  (same text twice gives the singular for any number; in French 0 takes the singular).
+* A check finished on the page of the plugin is logged for the plugin maintenance (`ManageCheck`, `CheckTask::ID`), if it is there.
 * Text search is done in PHP (`Items::match()`), not in SQL: same result on MySQL, PostgreSQL and SQLite.
 * MCP tool: one read only tool, permission checked in `available()`, names and descriptions in English, not translated.
 * `Frontend::init()` must not be limited to some URL types, or the tool is never registered.

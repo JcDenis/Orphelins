@@ -21,12 +21,6 @@ msgstr "Liens morts et médias orphelins"
 msgid "Find dead links, missing files and unused media of the blog"
 msgstr "Trouver les liens morts, les fichiers absents et les médias inutilisés du blog"
 
-msgid "%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed)."
-msgstr "%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés)."
-
-msgid "%s media deleted."
-msgstr "%s médias supprimés."
-
 msgid "A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes."
 msgstr "Une vérification lit les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu'aucun billet n'utilise. Elle peut prendre plusieurs minutes."
 
@@ -105,9 +99,6 @@ msgstr "Liens et médias"
 msgid "Links"
 msgstr "Liens"
 
-msgid "List of %s lines matching the filter."
-msgstr "Liste des %s lignes correspondant au filtre."
-
 msgid "Local address, not checked"
 msgstr "Adresse locale, non vérifiée"
 
@@ -170,9 +161,6 @@ msgstr "Action sur les lignes sélectionnées :"
 
 msgid "Selected lines are now ignored."
 msgstr "Les lignes sélectionnées sont maintenant ignorées."
-
-msgid "Selected lines have been checked again, but %s links are still waiting: they will be checked by the next check."
-msgstr "Les lignes sélectionnées ont été vérifiées à nouveau, mais %s liens sont encore en attente : ils seront vérifiés à la prochaine vérification."
 
 msgid "Selected lines have been checked again."
 msgstr "Les lignes sélectionnées ont été vérifiées à nouveau."
@@ -306,12 +294,6 @@ msgstr "Absent"
 msgid "Unused"
 msgstr "Inutilisé"
 
-msgid "Last check: %1$s. To fix: %2$s unused media."
-msgstr "Dernière vérification : %1$s. À corriger : %2$s médias inutilisés."
-
-msgid "Last check: %1$s. To fix: %2$s links, %3$s missing files."
-msgstr "Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents."
-
 msgid "List of unused media (%s)"
 msgstr "Liste des médias inutilisés (%s)"
 
@@ -350,6 +332,44 @@ msgstr "Oublier jusqu'à la prochaine vérification"
 
 msgid "Selected lines are forgotten until the next check."
 msgstr "Les lignes sélectionnées sont oubliées jusqu'à la prochaine vérification."
+
+msgid "Last check: %1$s. To fix: %2$s."
+msgstr "Dernière vérification : %1$s. À corriger : %2$s."
+
+msgid "%d link"
+msgid_plural "%d links"
+msgstr[0] "%d lien"
+msgstr[1] "%d liens"
+
+msgid "%d missing file"
+msgid_plural "%d missing files"
+msgstr[0] "%d fichier absent"
+msgstr[1] "%d fichiers absents"
+
+msgid "%d unused media file"
+msgid_plural "%d unused media files"
+msgstr[0] "%d média inutilisé"
+msgstr[1] "%d médias inutilisés"
+
+msgid "%d media file deleted."
+msgid_plural "%d media files deleted."
+msgstr[0] "%d média supprimé."
+msgstr[1] "%d médias supprimés."
+
+msgid "%d media file kept (used since the last check, ignored or not allowed)."
+msgid_plural "%d media files kept (used since the last check, ignored or not allowed)."
+msgstr[0] "%d média conservé (utilisé depuis la dernière vérification, ignoré ou non autorisé)."
+msgstr[1] "%d médias conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés)."
+
+msgid "List of %d line matching the filter."
+msgid_plural "List of %d lines matching the filter."
+msgstr[0] "Liste de %d ligne correspondant au filtre."
+msgstr[1] "Liste des %d lignes correspondant au filtre."
+
+msgid "%d link is still waiting for the next check."
+msgid_plural "%d links are still waiting for the next check."
+msgstr[0] "%d lien attend encore la prochaine vérification."
+msgstr[1] "%d liens attendent encore la prochaine vérification."
 
 msgid "One problem to fix"
 msgid_plural "%d problems to fix"

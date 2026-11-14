@@ -23,7 +23,8 @@ Le rapport est une liste filtrable dans l'administration, avec un lien direct ve
   du plugin maintenance du cœur. Son avancement est enregistré dans les réglages du blog : une étape n'a besoin de rien d'autre.
   Écarté : un script cron (Dotclear doit rester simple à installer) et un service REST dédié (le rechargement de page suffit).
 * **« Planifié » veut dire rappelé.** Dotclear n'a pas de tâches planifiées. La vérification est aussi une tâche du plugin
-  maintenance, qui sait rappeler de la refaire régulièrement. Rien ne se lance tout seul.
+  maintenance, qui sait rappeler de la refaire régulièrement. Rien ne se lance tout seul. Une vérification terminée
+  depuis la page du plugin est signalée à maintenance, pour que son rappel reparte de là.
 * **Une table dédiée, toutes les adresses gardées.** Une ligne par lien ou fichier de chaque billet, problème ou non :
   cela permet de ne pas redemander à un site un lien vérifié il y a peu, de garder les lignes ignorées d'une vérification
   à l'autre, et de filtrer toutes les adresses d'un blog.

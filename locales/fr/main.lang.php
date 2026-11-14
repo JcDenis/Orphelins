@@ -10,8 +10,6 @@ use Dotclear\Helper\L10n;
 
 L10n::$locales['Dead links and unused media'] = 'Liens morts et médias orphelins';
 L10n::$locales['Find dead links, missing files and unused media of the blog'] = 'Trouver les liens morts, les fichiers absents et les médias inutilisés du blog';
-L10n::$locales['%1$s media deleted, %2$s kept (used since the last check, ignored or not allowed).'] = '%1$s médias supprimés, %2$s conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés).';
-L10n::$locales['%s media deleted.'] = '%s médias supprimés.';
 L10n::$locales['A check reads the entries of the blog, asks the web sites if their links still exist, looks for the files of the entries in the media library, then looks for the media no entry uses. It may take several minutes.'] = 'Une vérification lit les billets et pages du blog, demande aux sites web si leurs liens existent encore, cherche les fichiers des billets dans la médiathèque, puis cherche les médias qu\'aucun billet n\'utilise. Elle peut prendre plusieurs minutes.';
 L10n::$locales['Address'] = 'Adresse';
 L10n::$locales['All statuses'] = 'Tous les états';
@@ -38,7 +36,6 @@ L10n::$locales['Link'] = 'Lien';
 L10n::$locales['Links and media check done.'] = 'Vérification des liens et des médias terminée.';
 L10n::$locales['Links and media'] = 'Liens et médias';
 L10n::$locales['Links'] = 'Liens';
-L10n::$locales['List of %s lines matching the filter.'] = 'Liste des %s lignes correspondant au filtre.';
 L10n::$locales['Local address, not checked'] = 'Adresse locale, non vérifiée';
 L10n::$locales['Look for dead links, missing files and unused media of the blog. The result is on the page of the plugin.'] = 'Cherche les liens morts, les fichiers absents et les médias inutilisés du blog. Le résultat est sur la page du plugin.';
 L10n::$locales['Moved to %s'] = 'Déplacé vers %s';
@@ -60,7 +57,6 @@ L10n::$locales['Save options only'] = 'Enregistrer seulement les options';
 L10n::$locales['Select this line'] = 'Sélectionner cette ligne';
 L10n::$locales['Selected lines action:'] = 'Action sur les lignes sélectionnées :';
 L10n::$locales['Selected lines are now ignored.'] = 'Les lignes sélectionnées sont maintenant ignorées.';
-L10n::$locales['Selected lines have been checked again, but %s links are still waiting: they will be checked by the next check.'] = 'Les lignes sélectionnées ont été vérifiées à nouveau, mais %s liens sont encore en attente : ils seront vérifiés à la prochaine vérification.';
 L10n::$locales['Selected lines have been checked again.'] = 'Les lignes sélectionnées ont été vérifiées à nouveau.';
 L10n::$locales['Selected media are used by an entry since the last check: they have not been deleted.'] = 'Les médias sélectionnés sont utilisés par un billet depuis la dernière vérification : ils n\'ont pas été supprimés.';
 L10n::$locales['Start a first check with the button "New check".'] = 'Lancez une première vérification avec le bouton « Nouvelle vérification ».';
@@ -105,8 +101,6 @@ L10n::$locales['Local address'] = 'Adresse locale';
 L10n::$locales['Found'] = 'Trouvé';
 L10n::$locales['Missing'] = 'Absent';
 L10n::$locales['Unused'] = 'Inutilisé';
-L10n::$locales['Last check: %1$s. To fix: %2$s unused media.'] = 'Dernière vérification : %1$s. À corriger : %2$s médias inutilisés.';
-L10n::$locales['Last check: %1$s. To fix: %2$s links, %3$s missing files.'] = 'Dernière vérification : %1$s. À corriger : %2$s liens, %3$s fichiers absents.';
 L10n::$locales['List of unused media (%s)'] = 'Liste des médias inutilisés (%s)';
 L10n::$locales['List of links and files to fix (%s)'] = 'Liste des liens et fichiers à corriger (%s)';
 L10n::$locales['Delete from the media library'] = 'Supprimer de la médiathèque';
@@ -120,6 +114,35 @@ L10n::$locales['Resume the check'] = 'Reprendre la vérification';
 L10n::$locales['Give up the check'] = 'Abandonner la vérification';
 L10n::$locales['Forget until the next check'] = 'Oublier jusqu\'à la prochaine vérification';
 L10n::$locales['Selected lines are forgotten until the next check.'] = 'Les lignes sélectionnées sont oubliées jusqu\'à la prochaine vérification.';
+L10n::$locales['Last check: %1$s. To fix: %2$s.'] = 'Dernière vérification : %1$s. À corriger : %2$s.';
+L10n::$locales['%d link'] = [
+	'%d lien',
+	'%d liens',
+];
+L10n::$locales['%d missing file'] = [
+	'%d fichier absent',
+	'%d fichiers absents',
+];
+L10n::$locales['%d unused media file'] = [
+	'%d média inutilisé',
+	'%d médias inutilisés',
+];
+L10n::$locales['%d media file deleted.'] = [
+	'%d média supprimé.',
+	'%d médias supprimés.',
+];
+L10n::$locales['%d media file kept (used since the last check, ignored or not allowed).'] = [
+	'%d média conservé (utilisé depuis la dernière vérification, ignoré ou non autorisé).',
+	'%d médias conservés (utilisés depuis la dernière vérification, ignorés ou non autorisés).',
+];
+L10n::$locales['List of %d line matching the filter.'] = [
+	'Liste de %d ligne correspondant au filtre.',
+	'Liste des %d lignes correspondant au filtre.',
+];
+L10n::$locales['%d link is still waiting for the next check.'] = [
+	'%d lien attend encore la prochaine vérification.',
+	'%d liens attendent encore la prochaine vérification.',
+];
 L10n::$locales['One problem to fix'] = [
 	'Un problème à corriger',
 	'%d problèmes à corriger',
