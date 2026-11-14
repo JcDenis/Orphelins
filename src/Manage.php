@@ -373,7 +373,13 @@ class Manage
                 $deleted++;
                 $kept--;
             } catch (Throwable $exception) {
-                $error = $exception->getMessage();
+                if (Items::getByIds([$item->id]) === []) {
+                    // The media is gone from the media library (and its line with it), only its file was already missing
+                    $deleted++;
+                    $kept--;
+                } else {
+                    $error = $exception->getMessage();
+                }
             }
         }
 
