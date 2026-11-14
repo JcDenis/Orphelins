@@ -23,6 +23,8 @@ With the plugin [ClaudetteMcp](https://github.com/JcDenis/ClaudetteMcp), an AI a
 
 **This is an early version.** See [CONCEPTION.md](https://github.com/JcDenis/Orphelins/blob/master/CONCEPTION.md) (in French) for the design.
 
+A user guide with screenshots is available in French: [guide d'utilisation](https://github.com/JcDenis/Orphelins/blob/master/docs/fr/utilisation.md).
+
 ## REQUIREMENTS
 
 * Dotclear 2.40
@@ -88,6 +90,7 @@ ClaudetteMcp is not required. After installing _Orphelins_, reconnect the connec
 ## LINKS
 
 * [License](https://github.com/JcDenis/Orphelins/blob/master/LICENSE)
+* [User guide (in French)](https://github.com/JcDenis/Orphelins/blob/master/docs/fr/utilisation.md)
 * [Packages & details](https://github.com/JcDenis/Orphelins/releases)
 * [Issues & security](https://github.com/JcDenis/Orphelins/issues)
 
