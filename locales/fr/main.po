@@ -345,6 +345,12 @@ msgstr "Reprendre la vérification"
 msgid "Give up the check"
 msgstr "Abandonner la vérification"
 
+msgid "Forget until the next check"
+msgstr "Oublier jusqu'à la prochaine vérification"
+
+msgid "Selected lines are forgotten until the next check."
+msgstr "Les lignes sélectionnées sont oubliées jusqu'à la prochaine vérification."
+
 msgid "One problem to fix"
 msgid_plural "%d problems to fix"
 msgstr[0] "Un problème à corriger"

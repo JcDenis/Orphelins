@@ -118,6 +118,8 @@ L10n::$locales['A check was left before its end and is waiting. Resume it, or gi
 L10n::$locales['It stopped at: %s'] = 'Elle s\'est arrêtée à : %s';
 L10n::$locales['Resume the check'] = 'Reprendre la vérification';
 L10n::$locales['Give up the check'] = 'Abandonner la vérification';
+L10n::$locales['Forget until the next check'] = 'Oublier jusqu\'à la prochaine vérification';
+L10n::$locales['Selected lines are forgotten until the next check.'] = 'Les lignes sélectionnées sont oubliées jusqu\'à la prochaine vérification.';
 L10n::$locales['One problem to fix'] = [
 	'Un problème à corriger',
 	'%d problèmes à corriger',

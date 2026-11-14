@@ -116,6 +116,12 @@ class Manage
                         $message = __('Selected lines are now ignored.');
 
                         break;
+                    case 'forget':
+                        // Nothing is kept: the next check finds these lines again if they are still there
+                        Items::delete($ids);
+                        $message = __('Selected lines are forgotten until the next check.');
+
+                        break;
                     case 'recheck':
                         // Also the way to stop ignoring a line
                         Items::setStatus($ids, Items::STATUS_PENDING);
@@ -505,6 +511,7 @@ class Manage
         $actions = [
             new Option(__('Check again'), 'recheck'),
             new Option(__('Ignore'), 'ignore'),
+            new Option(__('Forget until the next check'), 'forget'),
         ];
         if ($vars->media) {
             $actions[] = new Option(__('Delete from the media library'), 'delete');

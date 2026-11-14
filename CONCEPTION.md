@@ -119,7 +119,8 @@ Une page du plugin dans le menu Blog, construite comme les listes du cœur :
   la vérification » et « Abandonner la vérification ») ; dans ce dernier cas le bouton des listes devient
   « Reprendre la vérification » ;
 * des actions groupées : vérifier à nouveau (relit les billets concernés, donc un billet corrigé perd ses problèmes ;
-  sert aussi à ne plus ignorer une ligne), ignorer, et pour les médias seulement, supprimer de la médiathèque ;
+  sert aussi à ne plus ignorer une ligne), ignorer (pour de bon : la ligne reste, à l'état « Ignoré »), oublier (la ligne
+  est supprimée de la table, et revient à la prochaine vérification si le problème est toujours là), et pour les médias seulement, supprimer de la médiathèque ;
 * avant de supprimer un média, il est recherché une nouvelle fois dans les billets : la liste peut être ancienne.
 
 Un favori du tableau de bord donne le nombre de problèmes à corriger.

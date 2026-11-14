@@ -50,7 +50,8 @@ Each list shows what is to fix. Each line has a status:
 | Not checked | Link to a domain not to check or to a local address, or line waiting for the next check |
 | Ignored | You asked not to hear about this line anymore |
 
-Selected lines can be checked again (their entries are read again, so a fixed entry loses its problems) or ignored.
+Selected lines can be checked again (their entries are read again, so a fixed entry loses its problems), ignored for good,
+or forgotten: a forgotten line leaves the lists until a next check finds it again.
 Selected unused media can also be deleted from the media library, after a confirmation.
 
 Options of the check:

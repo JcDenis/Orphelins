@@ -48,6 +48,7 @@ Required Dotclear and PHP versions: see `_define.php`.
   never limit it by date.
 * Statuses: `IGNORED` is a choice of the user and survives the checks; `SKIPPED` (ignored domain, local address) is evaluated
   again by each check. `Items::linkResult()` never changes an ignored row.
+* Action "forget" deletes rows (`Items::delete()`), nothing else: the next check finds them again. Not to be confused with `IGNORED`.
 * Links with the same address share their check (`item_hash`), one request per address.
 * Unused media: a media is used if it is linked to an entry (`post_media`), found in a content by the check (itself or a thumbnail,
   `Url::mediaKey()`), or found by `LIKE` in entries of all blogs, categories and blogs descriptions and settings.
