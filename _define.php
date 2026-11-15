@@ -22,7 +22,7 @@ $this->registerModule(
     'Dead links and unused media',
     'Find dead links, missing files and unused media of the blog',
     'Jean-Christian Paul Denis and Contributors',
-    '0.1',
+    '0.1.1',
     [
         'requires' => [
             ['php', '8.3'],
@@ -33,6 +33,6 @@ $this->registerModule(
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
         'details'     => 'https://github.com/JcDenis/' . $this->id . '/blob/master/README.md',
         'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-11-14T21:59:36+00:00',
+        'date'        => '2026-11-15T15:11:39+00:00',
     ]
 );
