@@ -1,7 +1,11 @@
 <?php
 declare(strict_types=1);
 
-
+/**
+ * @package Dotclear
+ *
+ * @copyright Olivier Meunier & Association Dotclear
+ */
 #
 # DOT NOT MODIFY THIS FILE !
 #
@@ -22,12 +26,12 @@ L10n::$locales['Check links and media of the entries'] = 'Vérifier les liens et
 L10n::$locales['Domain not to check'] = 'Domaine à ne pas vérifier';
 L10n::$locales['Domains not to check:'] = 'Domaines à ne pas vérifier :';
 L10n::$locales['Edit this entry'] = 'Modifier ce billet';
-L10n::$locales['Entry'] = 'Billet';
+L10n::$locales['Entry'] = 'Entrée';
 L10n::$locales['Failed to check links and media.'] = 'La vérification des liens et des médias a échoué.';
 L10n::$locales['File found'] = 'Fichier trouvé';
 L10n::$locales['File not found in the media library'] = 'Fichier absent de la médiathèque';
 L10n::$locales['File'] = 'Fichier';
-L10n::$locales['Files'] = 'Fichiers';
+L10n::$locales['Files'] = 'Médias';
 L10n::$locales['Ignore'] = 'Ignorer';
 L10n::$locales['Ignored'] = 'Ignoré';
 L10n::$locales['Last check'] = 'Dernière vérification';
@@ -62,7 +66,7 @@ L10n::$locales['Selected media are used by an entry since the last check: they h
 L10n::$locales['Start a first check with the button "New check".'] = 'Lancez une première vérification avec le bouton « Nouvelle vérification ».';
 L10n::$locales['Start the check'] = 'Lancer la vérification';
 L10n::$locales['Status'] = 'État';
-L10n::$locales['Status:'] = 'État :';
+L10n::$locales['Status:'] = 'État :';
 L10n::$locales['Step 1 of 3: reading entries (%1$s of %2$s).'] = 'Étape 1 sur 3 : lecture des billets (%1$s sur %2$s).';
 L10n::$locales['Step 2 of 3: checking links (%1$s of %2$s).'] = 'Étape 2 sur 3 : vérification des liens (%1$s sur %2$s).';
 L10n::$locales['Step 3 of 3: looking for unused media (%1$s of %2$s).'] = 'Étape 3 sur 3 : recherche des médias inutilisés (%1$s sur %2$s).';
@@ -77,7 +81,7 @@ L10n::$locales['To fix'] = 'À corriger';
 L10n::$locales['To verify'] = 'À vérifier';
 L10n::$locales['Too many redirections'] = 'Trop de redirections';
 L10n::$locales['Type'] = 'Type';
-L10n::$locales['Type:'] = 'Type :';
+L10n::$locales['Type:'] = 'Type :';
 L10n::$locales['Unknown action.'] = 'Action inconnue.';
 L10n::$locales['Unused media'] = 'Médias inutilisés';
 L10n::$locales['Used by no entry'] = 'Utilisé par aucun billet';

@@ -58,7 +58,7 @@ msgid "Edit this entry"
 msgstr "Modifier ce billet"
 
 msgid "Entry"
-msgstr "Billet"
+msgstr "Entrée"
 
 msgid "Failed to check links and media."
 msgstr "La vérification des liens et des médias a échoué."
@@ -73,7 +73,7 @@ msgid "File"
 msgstr "Fichier"
 
 msgid "Files"
-msgstr "Fichiers"
+msgstr "Médias"
 
 msgid "Ignore"
 msgstr "Ignorer"
@@ -178,7 +178,7 @@ msgid "Status"
 msgstr "État"
 
 msgid "Status:"
-msgstr "État :"
+msgstr "État :"
 
 msgid "Step 1 of 3: reading entries (%1$s of %2$s)."
 msgstr "Étape 1 sur 3 : lecture des billets (%1$s sur %2$s)."
@@ -223,7 +223,7 @@ msgid "Type"
 msgstr "Type"
 
 msgid "Type:"
-msgstr "Type :"
+msgstr "Type :"
 
 msgid "Unknown action."
 msgstr "Action inconnue."
