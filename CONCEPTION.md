@@ -112,6 +112,12 @@ Une page du plugin dans le menu Blog, construite comme les listes du cœur :
 * le bloc « Filtres et options d'affichage » du cœur la limite à un type (liens ou fichiers), à un état ou à un texte
   (adresse ou titre du billet), et règle le tri et le nombre de lignes par page ; chaque liste a ses propres options
   (behavior `adminFiltersListsV3`) ;
+* un filtre et un tri par résultat sur la liste des liens et fichiers (demande d'un utilisateur, ticket #2) : le résultat
+  affiché est une clé calculée à partir de plusieurs champs (`Item::result()` : `http-404`, `redirect-dead`, `host`…),
+  donc le filtre se fait en PHP comme la recherche de texte ; les réponses HTTP proposées sont celles présentes sur le blog ;
+* un export CSV de chaque liste (même ticket), sous la liste : toutes les lignes des filtres en cours, en UTF-8 avec marque
+  d'ordre d'octets et point-virgule, ce qu'attendent les tableurs en français ; une valeur qui commence comme une formule
+  (`=`, `+`, `-`, `@`) est préfixée d'une apostrophe, les adresses et les titres étant écrits par les auteurs du blog ;
 * la colonne « Résultat » tient en un ou deux mots (« HTTP 404 », « Site inconnu », « Redirigé ») ; le détail
   (l'adresse de redirection par exemple) est dans l'infobulle ;
 * un bouton « Nouvelle vérification » en haut de page mène à la page de la vérification, qui a trois états bien distincts :

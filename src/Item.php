@@ -44,6 +44,26 @@ class Item
     }
 
     /**
+     * Get the result of the last check as a key: what the lists show, filter and export.
+     *
+     * @return  string  "waiting", "http-" followed by the HTTP code, "redirect-dead", or one of Items::INFO_xxx
+     */
+    public function result(): string
+    {
+        if ($this->status === Items::STATUS_PENDING) {
+            return Items::RESULT_WAITING;
+        }
+
+        $info = explode(' ', $this->info, 2)[0];
+
+        return match ($info) {
+            Items::INFO_HTTP     => Items::RESULT_HTTP . $this->code,
+            Items::INFO_REDIRECT => $this->status === Items::STATUS_OK ? Items::INFO_REDIRECT : Items::RESULT_REDIRECT_DEAD,
+            default              => $info,
+        };
+    }
+
+    /**
      * Something is wrong or may be wrong with this item.
      */
     public function isProblem(): bool

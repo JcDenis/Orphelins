@@ -42,7 +42,8 @@ A check reads the entries of the blog (all of them, or the ones published since 
 so it does not depend on the time limit of the server. It can be stopped: what was checked so far is kept.
 
 The result is in two lists, on two pages: _Links and files_, with a link to the entry to edit, and _Unused media_.
-Each list shows what is to fix. Each line has a status:
+Each list shows what is to fix, can be filtered (type, status, result of the check, text) and exported as a CSV file.
+Each line has a status:
 
 | Status | Meaning |
 |---|---|

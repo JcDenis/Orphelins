@@ -72,8 +72,8 @@ msgstr "Fichier absent de la médiathèque"
 msgid "File"
 msgstr "Fichier"
 
-msgid "Files"
-msgstr "Médias"
+msgid "Files of entries"
+msgstr "Fichiers"
 
 msgid "Ignore"
 msgstr "Ignorer"
@@ -370,6 +370,29 @@ msgid "%d link is still waiting for the next check."
 msgid_plural "%d links are still waiting for the next check."
 msgstr[0] "%d lien attend encore la prochaine vérification."
 msgstr[1] "%d liens attendent encore la prochaine vérification."
+
+msgid "Result:"
+msgstr "Résultat :"
+
+msgid "All results"
+msgstr "Tous les résultats"
+
+msgid "Size (bytes)"
+msgstr "Taille (octets)"
+
+msgid "Entry ID"
+msgstr "ID de l'entrée"
+
+msgid "Result details"
+msgstr "Détail du résultat"
+
+msgid "HTTP code"
+msgstr "Code HTTP"
+
+msgid "Export this list as a CSV file (%d line)"
+msgid_plural "Export this list as a CSV file (%d lines)"
+msgstr[0] "Exporter cette liste en fichier CSV (%d ligne)"
+msgstr[1] "Exporter cette liste en fichier CSV (%d lignes)"
 
 msgid "One problem to fix"
 msgid_plural "%d problems to fix"

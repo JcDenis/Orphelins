@@ -28,7 +28,8 @@ Required Dotclear and PHP versions: see `_define.php`.
 * `src/Manage.php`: two lists on two pages linked by pseudo tabs, links and files (default) and unused media (`part=media`),
   each with its filters, its display options (`Orphelins` and `OrphelinsMedia`) and its actions on selected lines.
   `ManageCheck.php` (options and start; check going on, with request `run` set by the redirection after each step;
-  check left before its end, which waits for "resume" or "give up"), `ManageVars.php` (request values); `js/manage.js`.
+  check left before its end, which waits for "resume" or "give up"), `ManageVars.php` (request values, names of the results); `js/manage.js`.
+  `Export.php`: a list as a CSV file (request `export`), all the lines matching the filters.
 * `src/BackendBehaviors.php`: filters options (`adminFiltersListsV3`), dashboard favorite with the number of problems,
   task of the plugin maintenance (`dcMaintenanceInit`, `src/Maintenance/CheckTask.php`).
 * `src/ClaudetteMcp/ListContentProblems.php`: tool `list_content_problems`, registered in `src/Frontend.php`
@@ -58,6 +59,11 @@ Required Dotclear and PHP versions: see `_define.php`.
 * Media are only deleted from the admin page, on selected lines, after a new look for each one, by `App::media()->removeFile()`
   which checks the media permissions. No automatic deletion, no deletion by the MCP tool.
 * The column "Result" is one or two words in `nowrap` (`Manage::info()`), the sentence is its title (`Manage::infoDetail()`).
+  The result is a key made of several fields (`Item::result()`), named by `ManageVars::resultName()`: the filter by result
+  is done in PHP (`Items::match()`), and a new result must be added to `ManageVars::results()`.
+* CSV export: values come from the authors of the blog, keep the protection against formulas in `Export::cell()`.
+* A translation of the module replaces the one of the core for the same English text, everywhere in the admin:
+  before adding a text, look for it in the core `locales/fr/*.po` and use another English text if the meaning differs.
 * Messages with a number use the plural form of `__()` with two different English texts and `%d` in both
   (same text twice gives the singular for any number; in French 0 takes the singular).
 * A check finished on the page of the plugin is logged for the plugin maintenance (`ManageCheck`, `CheckTask::ID`), if it is there.

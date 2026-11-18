@@ -17,6 +17,7 @@ publique du blog.
 * [La liste « Liens et fichiers »](#la-liste--liens-et-fichiers-)
 * [La liste « Médias inutilisés »](#la-liste--médias-inutilisés-)
 * [Filtres et options d'affichage](#filtres-et-options-daffichage)
+* [Exporter une liste](#exporter-une-liste)
 * [Agir sur plusieurs lignes](#agir-sur-plusieurs-lignes)
 * [Le favori du tableau de bord](#le-favori-du-tableau-de-bord)
 * [La tâche du plugin Maintenance](#la-tâche-du-plugin-maintenance)
@@ -112,7 +113,7 @@ Les colonnes :
 * **Adresse** : l'adresse du lien ou du fichier. Un clic l'ouvre, pour vérifier vous-même.
 * **Type** : _Lien_ (une adresse demandée à son site web) ou _Fichier_ (une adresse de la médiathèque du blog,
   cherchée sur le disque).
-* **Billet** : le billet qui contient l'adresse. Son titre mène à sa page de modification, pour corriger.
+* **Entrée** : le billet qui contient l'adresse. Son titre mène à sa page de modification, pour corriger.
 * **Résultat** : ce que la vérification a trouvé, en un ou deux mots (voir plus bas).
 * **Dernière vérification** : la date où cette adresse a été vérifiée pour la dernière fois.
 * **État** : le verdict.
@@ -196,6 +197,10 @@ Filtres :
 * **Type** (liste des liens et fichiers seulement) : _Liens et fichiers_, _Liens_ ou _Fichiers_.
 * **État** : _À corriger_ (par défaut : les lignes _Problème_ et _À vérifier_), _Problème_, _À vérifier_,
   _Ignoré_, _Sans problème_, _Non vérifié_ ou _Tous les états_.
+* **Résultat** (liste des liens et fichiers seulement) : un seul résultat à la fois, par exemple _HTTP 404_,
+  _Site inconnu_ ou _Redirigé_. Les réponses HTTP proposées sont celles rencontrées sur votre blog.
+  Ce filtre se combine avec l'état : pour voir tous les _HTTP 403_, y compris les lignes ignorées, choisissez aussi
+  _Tous les états_.
 
 Pour revoir les lignes ignorées, choisissez l'état **Ignoré**, puis **Appliquer les filtres et options d'affichage**.
 
@@ -203,13 +208,27 @@ Pour revoir les lignes ignorées, choisissez l'état **Ignoré**, puis **Appliqu
 
 Options d'affichage :
 
-* **Trier par** : _Dernière vérification_ (par défaut), _Adresse_, _Billet_, _Type_ ou _État_ pour les liens et
+* **Trier par** : _Dernière vérification_ (par défaut), _Adresse_, _Entrée_, _Type_, _Résultat_ ou _État_ pour les liens et
   fichiers ; _Dernière vérification_, _Média_ ou _État_ pour les médias.
 * **Ordre** : croissant ou décroissant (décroissant par défaut).
 * **Afficher _n_ lignes par page** (_médias par page_ pour les médias inutilisés) : 30 par défaut.
 
 Le lien **Sauvegarder ces options** garde le tri et le nombre de lignes par page pour vos prochaines visites.
 Chaque liste a ses propres options, qui se retrouvent aussi dans vos préférences, onglet _Mes options_.
+
+## Exporter une liste
+
+Sous chaque liste, le bouton **Exporter cette liste en fichier CSV** télécharge la liste pour l'ouvrir dans un tableur
+(tri, tableau croisé…). Le fichier contient toutes les lignes qui correspondent aux filtres en cours, pas seulement
+celles de la page affichée, dans l'ordre de tri choisi. Le bouton indique le nombre de lignes.
+
+* Liens et fichiers : adresse, type, titre et identifiant de l'entrée, résultat, détail du résultat (l'adresse de
+  redirection par exemple), code HTTP, date de dernière vérification, état.
+* Médias inutilisés : média, taille en octets (vide si le fichier est absent du disque), date de dernière
+  vérification, état.
+
+Le fichier est en UTF-8, avec le point-virgule comme séparateur. Si votre tableur met tout dans une seule colonne,
+choisissez « point-virgule » comme séparateur à l'ouverture.
 
 ## Agir sur plusieurs lignes
 

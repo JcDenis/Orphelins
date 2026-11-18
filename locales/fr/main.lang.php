@@ -31,7 +31,7 @@ L10n::$locales['Failed to check links and media.'] = 'La vérification des liens
 L10n::$locales['File found'] = 'Fichier trouvé';
 L10n::$locales['File not found in the media library'] = 'Fichier absent de la médiathèque';
 L10n::$locales['File'] = 'Fichier';
-L10n::$locales['Files'] = 'Médias';
+L10n::$locales['Files of entries'] = 'Fichiers';
 L10n::$locales['Ignore'] = 'Ignorer';
 L10n::$locales['Ignored'] = 'Ignoré';
 L10n::$locales['Last check'] = 'Dernière vérification';
@@ -146,6 +146,16 @@ L10n::$locales['List of %d line matching the filter.'] = [
 L10n::$locales['%d link is still waiting for the next check.'] = [
 	'%d lien attend encore la prochaine vérification.',
 	'%d liens attendent encore la prochaine vérification.',
+];
+L10n::$locales['Result:'] = 'Résultat :';
+L10n::$locales['All results'] = 'Tous les résultats';
+L10n::$locales['Size (bytes)'] = 'Taille (octets)';
+L10n::$locales['Entry ID'] = 'ID de l\'entrée';
+L10n::$locales['Result details'] = 'Détail du résultat';
+L10n::$locales['HTTP code'] = 'Code HTTP';
+L10n::$locales['Export this list as a CSV file (%d line)'] = [
+	'Exporter cette liste en fichier CSV (%d ligne)',
+	'Exporter cette liste en fichier CSV (%d lignes)',
 ];
 L10n::$locales['One problem to fix'] = [
 	'Un problème à corriger',

@@ -88,6 +88,10 @@ class Manage
 
         $vars = self::$vars;
 
+        if ($vars->export) {
+            Export::send($vars);
+        }
+
         try {
             // Selected items action
             if (isset($_POST['do-action'])) {
@@ -166,9 +170,9 @@ class Manage
         }
 
         $vars  = self::$vars;
-        $total = Items::count($vars->itemTypes(), $vars->itemStatuses(), $vars->query);
+        $total = Items::count($vars->itemTypes(), $vars->itemStatuses(), $vars->query, $vars->result);
         $page  = min($vars->page, max(1, (int) ceil($total / $vars->nb)));
-        $items = Items::search($vars->itemTypes(), $vars->itemStatuses(), $vars->query, $vars->nb, ($page - 1) * $vars->nb, $vars->sortby, $vars->desc);
+        $items = Items::search($vars->itemTypes(), $vars->itemStatuses(), $vars->query, $vars->nb, ($page - 1) * $vars->nb, $vars->sortby, $vars->desc, $vars->result);
         $part  = $vars->media ? ['part' => ManageVars::PART_MEDIA] : [];
 
         App::backend()->page()->openModule(My::name(), self::head() . $vars->filters->js(My::manageUrl($part, '&')));
@@ -235,7 +239,16 @@ class Manage
             echo
             $pager->getLinks() .
             self::itemsForm($items, $total)->render() .
-            $pager->getLinks();
+            $pager->getLinks() .
+            (new Para())
+                ->items([
+                    (new Link())
+                        ->class('button')
+                        // All the lines of the list, not only those of the page
+                        ->href(My::manageUrl([... array_diff_key($vars->params(), ['page' => 0]), 'export' => 1]))
+                        ->text(sprintf(__('Export this list as a CSV file (%d line)', 'Export this list as a CSV file (%d lines)', $total), $total)),
+                ])
+                ->render();
         }
 
         App::backend()->page()->helpBlock($vars->media ? My::id() . '-media' : My::id());
@@ -277,24 +290,7 @@ class Manage
      */
     public static function info(Item $item): string
     {
-        if ($item->status === Items::STATUS_PENDING) {
-            return __('Waiting');
-        }
-
-        return match (explode(' ', $item->info, 2)[0]) {
-            Items::INFO_HTTP      => sprintf(__('HTTP %s'), $item->code),
-            Items::INFO_REDIRECT  => $item->status === Items::STATUS_OK ? __('Redirected') : __('Dead redirection'),
-            Items::INFO_REDIRECTS => __('Redirection loop'),
-            Items::INFO_HOST      => __('Unknown site'),
-            Items::INFO_CONNECT   => __('No answer'),
-            Items::INFO_TIMEOUT   => __('Too slow'),
-            Items::INFO_DOMAIN    => __('Ignored domain'),
-            Items::INFO_LOCAL     => __('Local address'),
-            Items::INFO_FOUND     => __('Found'),
-            Items::INFO_MISSING   => __('Missing'),
-            Items::INFO_UNUSED    => __('Unused'),
-            default               => '',
-        };
+        return ManageVars::resultName($item->result());
     }
 
     /**

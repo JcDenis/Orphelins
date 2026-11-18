@@ -80,6 +80,13 @@ class ManageVars
     ];
 
     /**
+     * The results the list of links and files can be limited to, read once per page load.
+     *
+     * @var     null|array<int, string>     $results
+     */
+    private static ?array $results = null;
+
+    /**
      * The list filters and display options.
      */
     public readonly Filters $filters;
@@ -98,6 +105,16 @@ class ManageVars
      * The status to show, empty for items to fix.
      */
     public readonly string $status;
+
+    /**
+     * The result of the last check to show, see Item::result(), empty for all.
+     */
+    public readonly string $result;
+
+    /**
+     * Send the list as a CSV file.
+     */
+    public readonly bool $export;
 
     /**
      * The searched text.
@@ -140,21 +157,27 @@ class ManageVars
             $this->filters->add(self::typeFilter());
         }
         $this->filters->add(self::statusFilter());
+        if (!$this->media) {
+            $this->filters->add(self::resultFilter());
+        }
 
         $nb     = (int) $this->value('nb');
         $sortby = $this->value('sortby');
         $type   = $this->value('type');
         $status = $this->value('status');
+        $result = $this->value('result');
 
         $this->type   = !$this->media && isset(self::TYPES[$type]) ? $type : '';
         $this->status = isset(self::STATUSES[$status]) ? $status : '';
+        $this->result = !$this->media && in_array($result, self::results(), true) ? $result : '';
         $this->query  = mb_substr(trim($this->value('q')), 0, 100);
         $this->page   = max(1, (int) $this->value('page'));
         $this->nb     = $nb > 0 ? $nb : self::PER_PAGE;
         $this->sortby = in_array($sortby, $this->media ? self::SORTS_MEDIA : Items::SORTS, true) ? $sortby : self::SORTBY;
         $this->desc   = $this->value('order') !== 'asc';
 
-        $this->check = self::request('check') !== '';
+        $this->check  = self::request('check') !== '';
+        $this->export = self::request('export') !== '';
     }
 
     /**
@@ -201,6 +224,9 @@ class ManageVars
         if ($this->status !== '') {
             $params['status'] = $this->status;
         }
+        if ($this->result !== '') {
+            $params['result'] = $this->result;
+        }
         if ($this->query !== '') {
             $params['q'] = $this->query;
         }
@@ -232,6 +258,7 @@ class ManageVars
             __('Address')    => 'item_url',
             __('Entry')      => 'post_title',
             __('Type')       => 'item_type',
+            __('Result')     => 'item_info',
             __('Status')     => 'item_status',
         ];
     }
@@ -287,8 +314,72 @@ class ManageVars
             ->options([
                 __('Links and files') => '',
                 __('Links')           => 'link',
-                __('Files')           => 'file',
+                __('Files of entries') => 'file',
             ])
+            ->prime(true);
+    }
+
+    /**
+     * Get the results the list of links and files can be limited to: the HTTP answers met on this blog, then the other ones.
+     *
+     * @return  array<int, string>  The results as Item::result() gives them
+     */
+    public static function results(): array
+    {
+        return self::$results ??= [
+            ...array_map(fn (int $code): string => Items::RESULT_HTTP . $code, Items::httpCodes()),
+            Items::INFO_HOST,
+            Items::INFO_CONNECT,
+            Items::INFO_TIMEOUT,
+            Items::INFO_REDIRECT,
+            Items::RESULT_REDIRECT_DEAD,
+            Items::INFO_REDIRECTS,
+            Items::INFO_MISSING,
+            Items::INFO_FOUND,
+            Items::INFO_DOMAIN,
+            Items::INFO_LOCAL,
+            Items::RESULT_WAITING,
+        ];
+    }
+
+    /**
+     * Get the name of a result, in one or two words.
+     *
+     * @param   string  $result     The result as Item::result() gives it
+     */
+    public static function resultName(string $result): string
+    {
+        if (str_starts_with($result, Items::RESULT_HTTP)) {
+            return sprintf(__('HTTP %s'), substr($result, strlen(Items::RESULT_HTTP)));
+        }
+
+        return match ($result) {
+            Items::RESULT_WAITING       => __('Waiting'),
+            Items::INFO_REDIRECT        => __('Redirected'),
+            Items::RESULT_REDIRECT_DEAD => __('Dead redirection'),
+            Items::INFO_REDIRECTS       => __('Redirection loop'),
+            Items::INFO_HOST            => __('Unknown site'),
+            Items::INFO_CONNECT         => __('No answer'),
+            Items::INFO_TIMEOUT         => __('Too slow'),
+            Items::INFO_DOMAIN          => __('Ignored domain'),
+            Items::INFO_LOCAL           => __('Local address'),
+            Items::INFO_FOUND           => __('Found'),
+            Items::INFO_MISSING         => __('Missing'),
+            Items::INFO_UNUSED          => __('Unused'),
+            default                     => '',
+        };
+    }
+
+    private static function resultFilter(): Filter
+    {
+        $options = [__('All results') => ''];
+        foreach (self::results() as $result) {
+            $options[self::resultName($result)] = $result;
+        }
+
+        return (new Filter('result'))
+            ->title(__('Result:'))
+            ->options($options)
             ->prime(true);
     }
 

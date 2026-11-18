@@ -128,7 +128,14 @@ class Items
      *
      * @var     array<int, string>  SORTS
      */
-    public const SORTS = ['item_url', 'post_title', 'item_type', 'item_status', 'item_dt'];
+    public const SORTS = ['item_url', 'post_title', 'item_type', 'item_info', 'item_status', 'item_dt'];
+
+    /**
+     * The results of a check as the lists show them, which are not one of INFO_xxx: see Item::result().
+     */
+    public const RESULT_WAITING       = 'waiting';
+    public const RESULT_HTTP          = 'http-';
+    public const RESULT_REDIRECT_DEAD = 'redirect-dead';
 
     /**
      * Get full table name.
@@ -202,11 +209,12 @@ class Items
      * @param   array<int, int>     $types      The types, none for all
      * @param   array<int, int>     $statuses   The statuses, none for all
      * @param   string              $query      Some text to find in the address or in the entry title, whatever the case and the accents
+     * @param   string              $result     The result of the last check, see Item::result(), empty for all
      */
-    public static function count(array $types = [], array $statuses = [], string $query = ''): int
+    public static function count(array $types = [], array $statuses = [], string $query = '', string $result = ''): int
     {
-        if (trim($query) !== '') {
-            return count(self::match(self::search($types, $statuses), $query));
+        if (trim($query) !== '' || $result !== '') {
+            return count(self::match(self::search($types, $statuses), $query, $result));
         }
 
         $sql = new SelectStatement();
@@ -233,14 +241,16 @@ class Items
      * @param   int                 $offset     The number of items to skip
      * @param   string              $sortby     The sort field, one of SORTS
      * @param   bool                $desc       The sort order is descending
+     * @param   string              $result     The result of the last check, see Item::result(), empty for all
      *
      * @return  array<int, Item>
      */
-    public static function search(array $types = [], array $statuses = [], string $query = '', int $limit = 0, int $offset = 0, string $sortby = '', bool $desc = true): array
+    public static function search(array $types = [], array $statuses = [], string $query = '', int $limit = 0, int $offset = 0, string $sortby = '', bool $desc = true, string $result = ''): array
     {
-        if (trim($query) !== '') {
-            // The text is not searched by the database: case, accents and escaping of LIKE differ from one database to another
-            $items = self::match(self::search($types, $statuses, '', 0, 0, $sortby, $desc), $query);
+        if (trim($query) !== '' || $result !== '') {
+            // The text is not searched by the database: case, accents and escaping of LIKE differ from one database to another.
+            // The result neither: it is made of several fields
+            $items = self::match(self::search($types, $statuses, '', 0, 0, $sortby, $desc), $query, $result);
 
             return $limit > 0 ? array_slice($items, max(0, $offset), $limit) : $items;
         }
@@ -249,11 +259,12 @@ class Items
 
         if (in_array($sortby, self::SORTS, true)) {
             $order = $desc ? ' DESC' : ' ASC';
-            $field = match ($sortby) {
-                'post_title' => App::db()->con()->lexFields('P.post_title'),
-                default      => 'I.' . $sortby,
-            };
-            $sql->order([$field . $order, 'I.item_id' . $order]);
+            $sql->order(match ($sortby) {
+                'post_title' => [App::db()->con()->lexFields('P.post_title') . $order, 'I.item_id' . $order],
+                // Same results together, HTTP answers by code
+                'item_info' => ['I.item_info' . $order, 'I.item_code' . $order, 'I.item_id' . $order],
+                default     => ['I.' . $sortby . $order, 'I.item_id' . $order],
+            });
         } else {
             $sql->order(['I.item_status ASC', 'I.item_dt DESC', 'I.item_id DESC']);
         }
@@ -265,6 +276,34 @@ class Items
         }
 
         return self::fetch($sql);
+    }
+
+    /**
+     * Get the HTTP codes answered to the links of current blog.
+     *
+     * @return  array<int, int>
+     */
+    public static function httpCodes(): array
+    {
+        $sql = new SelectStatement();
+        $rs  = $sql
+            ->column('item_code')
+            ->distinct()
+            ->from(self::table())
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->and('item_type = ' . self::TYPE_LINK)
+            ->and('item_info = ' . $sql->quote(self::INFO_HTTP))
+            ->order('item_code ASC')
+            ->select();
+
+        $codes = [];
+        if ($rs instanceof MetaRecord) {
+            while ($rs->fetch()) {
+                $codes[] = $rs->intField('item_code');
+            }
+        }
+
+        return $codes;
     }
 
     /**
@@ -769,20 +808,22 @@ class Items
     }
 
     /**
-     * Keep the items having some text in their address or in the title of their entry.
+     * Keep the items having some text in their address or in the title of their entry, and a given result.
      *
-     * @param   array<int, Item>    $items  The items
-     * @param   string              $query  The text to find
+     * @param   array<int, Item>    $items      The items
+     * @param   string              $query      The text to find, empty for all
+     * @param   string              $result     The result of the last check, see Item::result(), empty for all
      *
      * @return  array<int, Item>
      */
-    private static function match(array $items, string $query): array
+    private static function match(array $items, string $query, string $result = ''): array
     {
         $query = self::normalize($query);
 
         return array_values(array_filter(
             $items,
-            fn (Item $item): bool => str_contains(self::normalize($item->url . "\n" . $item->post_title), $query)
+            fn (Item $item): bool => ($result === '' || $item->result() === $result)
+                && ($query === '' || str_contains(self::normalize($item->url . "\n" . $item->post_title), $query))
         ));
     }
 
