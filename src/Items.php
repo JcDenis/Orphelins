@@ -580,9 +580,24 @@ class Items
      * Delete the items of the entries of current blog which do not exist anymore in this blog.
      *
      * The database deletes the items of a deleted entry, not those of an entry moved to another blog.
+     * And some databases do not do it at all (MySQL tables with the MyISAM engine have no foreign keys):
+     * the items of the deleted entries and of the deleted media are deleted here too.
      */
     public static function deleteStrayed(): void
     {
+        $media = new SelectStatement();
+        $media
+            ->column('media_id')
+            ->from(App::db()->con()->prefix() . App::postMedia()::MEDIA_TABLE_NAME);
+
+        $sql = new DeleteStatement();
+        $sql
+            ->from(self::table())
+            ->where('blog_id = ' . $sql->quote(App::blog()->id()))
+            ->and('media_id IS NOT NULL')
+            ->and('media_id NOT IN (' . $media->statement() . ')')
+            ->delete();
+
         $sub = new SelectStatement();
         $sub
             ->column('post_id')
@@ -595,6 +610,35 @@ class Items
             ->where('blog_id = ' . $sql->quote(App::blog()->id()))
             ->and('post_id IS NOT NULL')
             ->and('post_id NOT IN (' . $sub->statement() . ')')
+            ->delete();
+    }
+
+    /**
+     * Check if a media is still listed in the media library.
+     */
+    public static function mediaExists(int $media_id): bool
+    {
+        $sql = new SelectStatement();
+        $rs  = $sql
+            ->column('media_id')
+            ->from(App::db()->con()->prefix() . App::postMedia()::MEDIA_TABLE_NAME)
+            ->where('media_id = ' . $media_id)
+            ->select();
+
+        return $rs instanceof MetaRecord && !$rs->isEmpty();
+    }
+
+    /**
+     * Delete the items of a media, in all the blogs sharing its media library.
+     *
+     * The database does it when the media is deleted, if it has foreign keys: see deleteStrayed().
+     */
+    public static function deleteOfMedia(int $media_id): void
+    {
+        $sql = new DeleteStatement();
+        $sql
+            ->from(self::table())
+            ->where('media_id = ' . $media_id)
             ->delete();
     }
 

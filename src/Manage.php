@@ -376,17 +376,16 @@ class Manage
 
             try {
                 App::media()->removeFile($item->url);
-                Items::delete([$item->id]);
+            } catch (Throwable $exception) {
+                // Not always a failure: the core deletes the media from the media library, then fails on a file already missing
+                $error = $exception->getMessage();
+            }
+
+            // What happened is read in the media library, and the lines are deleted here: not all databases do it by themselves
+            if (!Items::mediaExists($item->media_id)) {
+                Items::deleteOfMedia($item->media_id);
                 $deleted++;
                 $kept--;
-            } catch (Throwable $exception) {
-                if (Items::getByIds([$item->id]) === []) {
-                    // The media is gone from the media library (and its line with it), only its file was already missing
-                    $deleted++;
-                    $kept--;
-                } else {
-                    $error = $exception->getMessage();
-                }
             }
         }
 
