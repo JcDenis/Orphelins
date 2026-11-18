@@ -1,3 +1,7 @@
+Orphelins 0.3 - 2026.11.18
+===========================================================
+* [new] Add filter and sort by result, and CSV export of the lists
+
 Orphelins 0.2 - 2026.11.18
 ===========================================================
 * [fix] Delete the lines of a deleted media on databases without foreign keys
