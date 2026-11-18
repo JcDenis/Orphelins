@@ -1,3 +1,7 @@
+Orphelins 0.2 - 2026.11.18
+===========================================================
+* [fix] Delete the lines of a deleted media on databases without foreign keys
+
 Orphelins 0.1.1 - 2026.11.15
 ===========================================================
 * [lang] Do not override core translations
