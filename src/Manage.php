@@ -446,11 +446,15 @@ class Manage
                     // On the list of links, the entry title needs room too
                     ->class($vars->media ? 'maximal' : '')
                     ->items([
-                        (new Link())
-                            // The media page of the core shows the media and allows to check it by hand
-                            ->href($vars->media ? App::backend()->url()->get('admin.media.item', ['id' => $item->media_id]) : Html::escapeHTML($item->url))
-                            ->title(Html::escapeHTML($item->url))
-                            ->text(Html::escapeHTML($url)),
+                        $vars->media && !$item->fileExists() ?
+                            // The media page of the core can not open a media without its file
+                            (new Text('span', Html::escapeHTML($url)))
+                                ->title(Html::escapeHTML($item->url)) :
+                            (new Link())
+                                // The media page of the core shows the media and allows to check it by hand
+                                ->href($vars->media ? App::backend()->url()->get('admin.media.item', ['id' => $item->media_id]) : Html::escapeHTML($item->url))
+                                ->title(Html::escapeHTML($item->url))
+                                ->text(Html::escapeHTML($url)),
                     ]),
             ];
 

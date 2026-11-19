@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Orphelins;
 
+use Dotclear\App;
+
 /**
  * @brief       Orphelins item descriptor.
  * @ingroup     Orphelins
@@ -61,6 +63,14 @@ class Item
             Items::INFO_REDIRECT => $this->status === Items::STATUS_OK ? Items::INFO_REDIRECT : Items::RESULT_REDIRECT_DEAD,
             default              => $info,
         };
+    }
+
+    /**
+     * Check if the file of an unused media is on the disk of the media library.
+     */
+    public function fileExists(): bool
+    {
+        return $this->type === Items::TYPE_ORPHAN && is_file(App::media()->getRoot() . '/' . $this->url);
     }
 
     /**
