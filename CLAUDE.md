@@ -61,6 +61,9 @@ Required Dotclear and PHP versions: see `_define.php`.
 * The column "Result" is one or two words in `nowrap` (`Manage::info()`), the sentence is its title (`Manage::infoDetail()`).
   The result is a key made of several fields (`Item::result()`), named by `ManageVars::resultName()`: the filter by result
   is done in PHP (`Items::match()`), and a new result must be added to `ManageVars::results()`.
+* Unused media: `Item::result()` and `Item::fileExists()` look at the disk now, like the column "Size": the result is
+  `INFO_UNUSED` (file present) or `INFO_MISSING` (file missing), used by the filter "File" of the media list
+  (`ManageVars::MEDIA_RESULTS`). A media without file has no link: the media page of the core can not open it.
 * CSV export: values come from the authors of the blog, keep the protection against formulas in `Export::cell()`.
 * A translation of the module replaces the one of the core for the same English text, everywhere in the admin:
   before adding a text, look for it in the core `locales/fr/*.po` and use another English text if the meaning differs.
