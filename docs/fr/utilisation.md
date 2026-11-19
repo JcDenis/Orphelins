@@ -161,7 +161,17 @@ Cette liste donne les médias de la médiathèque qu'aucun billet n'utilise.
 
 Les colonnes sont **Média** (son chemin dans la médiathèque, avec un lien vers sa page dans la médiathèque),
 **Taille**, **Dernière vérification** et **État**. Dans la colonne _Taille_, **Absent** signifie que le média est
-listé dans la médiathèque, mais que son fichier n'est plus sur le disque.
+listé dans la médiathèque, mais que son fichier n'est plus sur le disque. Un média absent n'a pas de lien :
+la médiathèque ne peut pas ouvrir sa page.
+
+### Supprimer les médias absents
+
+Un média absent n'est plus qu'une fiche dans la médiathèque, sans fichier : il est presque toujours à supprimer.
+Pour les supprimer tous d'un coup :
+
+1. dans les filtres, choisissez **Fichier : Absent**, et au besoin plus de médias par page,
+2. cliquez sur **Tout sélectionner** sous la liste,
+3. choisissez l'action **Supprimer de la médiathèque**, puis **ok**, et confirmez.
 
 Un média est considéré comme utilisé s'il est lié à un billet (annexe, média à la une…), s'il apparaît dans le
 contenu d'un billet (lui ou une de ses miniatures), ou si son chemin se retrouve dans les billets des autres
@@ -201,6 +211,8 @@ Filtres :
   _Site inconnu_ ou _Redirigé_. Les réponses HTTP proposées sont celles rencontrées sur votre blog.
   Ce filtre se combine avec l'état : pour voir tous les _HTTP 403_, y compris les lignes ignorées, choisissez aussi
   _Tous les états_.
+* **Fichier** (liste des médias inutilisés seulement) : _Tous les fichiers_, _Présent_ (le fichier est sur le
+  disque) ou _Absent_ (le média est listé dans la médiathèque, mais son fichier n'est plus sur le disque).
 
 Pour revoir les lignes ignorées, choisissez l'état **Ignoré**, puis **Appliquer les filtres et options d'affichage**.
 
@@ -242,7 +254,8 @@ choisissez une action en bas de la liste et cliquez sur **ok** :
 * **Oublier jusqu'à la prochaine vérification** : la ligne est supprimée du rapport. Si le problème existe
   toujours, la prochaine vérification la retrouve.
 * **Supprimer de la médiathèque** (médias inutilisés seulement) : après une confirmation, supprime le média et
-  son fichier.
+  son fichier. Avec **Tout sélectionner**, toute la page part d'un coup : c'est la façon de supprimer beaucoup de
+  médias, par exemple tous les médias absents (filtre _Fichier_).
 
 ![Supprimer des médias inutilisés](img/actions-medias.png)
 
