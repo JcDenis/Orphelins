@@ -1,3 +1,9 @@
+Orphelins 0.4 - 2026.11.19
+===========================================================
+* [fix] No link to the media page for an unused media without file, the core gives an error 500
+* [new] Add filter of unused media by file, present or missing
+* [docs] Explain how to delete all the missing media at once
+
 Orphelins 0.3 - 2026.11.18
 ===========================================================
 * [new] Add filter and sort by result, and CSV export of the lists
