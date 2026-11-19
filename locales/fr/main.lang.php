@@ -149,6 +149,9 @@ L10n::$locales['%d link is still waiting for the next check.'] = [
 ];
 L10n::$locales['Result:'] = 'Résultat :';
 L10n::$locales['All results'] = 'Tous les résultats';
+L10n::$locales['File:'] = 'Fichier :';
+L10n::$locales['All files'] = 'Tous les fichiers';
+L10n::$locales['Present'] = 'Présent';
 L10n::$locales['Size (bytes)'] = 'Taille (octets)';
 L10n::$locales['Entry ID'] = 'ID de l\'entrée';
 L10n::$locales['Result details'] = 'Détail du résultat';

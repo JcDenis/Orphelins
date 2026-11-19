@@ -56,6 +56,11 @@ class Item
             return Items::RESULT_WAITING;
         }
 
+        // An unused media is shown as it is now, like its size: its file may be missing from the disk
+        if ($this->type === Items::TYPE_ORPHAN) {
+            return $this->fileExists() ? Items::INFO_UNUSED : Items::INFO_MISSING;
+        }
+
         $info = explode(' ', $this->info, 2)[0];
 
         return match ($info) {

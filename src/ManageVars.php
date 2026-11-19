@@ -41,6 +41,13 @@ class ManageVars
     public const PART_MEDIA = 'media';
 
     /**
+     * The results the list of unused media can be limited to: file present or missing.
+     *
+     * @var     array<int, string>  MEDIA_RESULTS
+     */
+    public const MEDIA_RESULTS = [Items::INFO_UNUSED, Items::INFO_MISSING];
+
+    /**
      * The ID of the filters and display options of the list of unused media.
      *
      * @var     string  FILTERS_MEDIA
@@ -157,9 +164,7 @@ class ManageVars
             $this->filters->add(self::typeFilter());
         }
         $this->filters->add(self::statusFilter());
-        if (!$this->media) {
-            $this->filters->add(self::resultFilter());
-        }
+        $this->filters->add($this->media ? self::fileFilter() : self::resultFilter());
 
         $nb     = (int) $this->value('nb');
         $sortby = $this->value('sortby');
@@ -169,7 +174,7 @@ class ManageVars
 
         $this->type   = !$this->media && isset(self::TYPES[$type]) ? $type : '';
         $this->status = isset(self::STATUSES[$status]) ? $status : '';
-        $this->result = !$this->media && in_array($result, self::results(), true) ? $result : '';
+        $this->result = in_array($result, $this->media ? self::MEDIA_RESULTS : self::results(), true) ? $result : '';
         $this->query  = mb_substr(trim($this->value('q')), 0, 100);
         $this->page   = max(1, (int) $this->value('page'));
         $this->nb     = $nb > 0 ? $nb : self::PER_PAGE;
@@ -368,6 +373,21 @@ class ManageVars
             Items::INFO_UNUSED          => __('Unused'),
             default                     => '',
         };
+    }
+
+    /**
+     * The filter of the unused media by their file, present or missing from the disk: a result, see Item::result().
+     */
+    private static function fileFilter(): Filter
+    {
+        return (new Filter('result'))
+            ->title(__('File:'))
+            ->options([
+                __('All files') => '',
+                __('Present')   => Items::INFO_UNUSED,
+                __('Missing')   => Items::INFO_MISSING,
+            ])
+            ->prime(true);
     }
 
     private static function resultFilter(): Filter
