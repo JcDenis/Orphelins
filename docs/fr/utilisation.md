@@ -174,15 +174,15 @@ Pour les supprimer tous d'un coup :
 3. choisissez l'action **Supprimer de la médiathèque**, puis **ok**, et confirmez.
 
 Un média est considéré comme utilisé s'il est lié à un billet (annexe, média à la une…), s'il apparaît dans le
-contenu d'un billet (lui ou une de ses miniatures), ou si son chemin se retrouve dans les billets des autres
-blogs, dans les descriptions des catégories et des blogs ou dans les réglages (thèmes, widgets). En cas de
-doute, un média est « utilisé ».
+contenu d'un billet (lui ou une de ses miniatures), si son chemin se retrouve dans les billets des autres
+blogs, dans les métadonnées des billets, dans les descriptions des catégories et des blogs ou dans les réglages
+(thèmes, widgets), ou si un autre plugin indique qu'il l'utilise. En cas de doute, un média est « utilisé ».
 
 ### Précautions avant de supprimer
 
 Un média inutilisé n'est pas forcément inutile.
 
-* Un fichier de thème, ou un autre plugin, peut encore l'utiliser sans que le plugin le sache.
+* Un fichier de thème, ou un autre plugin qui ne le signale pas, peut encore l'utiliser sans que le plugin le sache.
 * La liste peut être ancienne : un billet a pu changer depuis la dernière vérification.
 
 Avant de supprimer :
