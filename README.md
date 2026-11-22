@@ -102,7 +102,7 @@ If the plugin [ClaudetteMcp](https://github.com/JcDenis/ClaudetteMcp) is enabled
 The assistant acts with the permissions of the user of the key: this user must manage all the entries of the blog.
 The tool only reads: the assistant does not start a check, ignores nothing and deletes no media.
 
-ClaudetteMcp is not required. After installing _Orphelins_, reconnect the connector of the assistant to validate the new tool.
+ClaudetteMcp is optional (version 0.5 or later). After installing _Orphelins_, reconnect the connector of the assistant to validate the new tool.
 
 ## LINKS
 
