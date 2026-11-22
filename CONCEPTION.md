@@ -82,8 +82,18 @@ Trois phases, dans l'ordre :
    « Problème ». 401, 403, 429, erreurs 5xx, délai dépassé, trop de redirections : « À vérifier ».
 3. **Recherche des médias orphelins.** Un média est utilisé s'il est lié à un billet (table `post_media` : annexes,
    média à la une…), si la phase 1 l'a trouvé dans un contenu (lui ou une de ses miniatures), ou si son chemin se retrouve
-   par `LIKE` dans les billets de tous les blogs (médiathèque partagée, image dans un style…), les descriptions
-   des catégories et des blogs, ou les réglages (thèmes, widgets). Dans le doute, un média est « utilisé ».
+   par `LIKE` dans les billets de tous les blogs (médiathèque partagée, image dans un style…), les métadonnées
+   des billets, les descriptions des catégories et des blogs, ou les réglages (thèmes, widgets), ou si un autre plugin
+   le déclare (voir plus bas). Dans le doute, un média est « utilisé ».
+
+### Médias utilisés par d'autres plugins
+
+Ticket #4. Le média à la une du plugin featuredMedia est déjà connu : il est lié au billet par la table `post_media`
+du cœur, lue sans tenir compte du type de lien. Pour les plugins qui gardent des médias dans leurs propres tables,
+le behavior `OrphelinsUsedMedia` leur donne un `ArrayObject` où ajouter un identifiant de média, un chemin dans
+la médiathèque ou une adresse. Il est appelé une fois par chargement de page de la vérification (et avant une suppression),
+pour le blog courant. Écarté : un behavior appelé pour chaque média candidat (une requête par média et par plugin),
+et une recherche dans des tables de plugins connus (le plugin ne sait pas lire les données des autres).
 
 À chaque nouvelle vérification, les liens à corriger et les liens non vérifiés sont redemandés ; un lien sans problème
 ne l'est qu'après `recheck_days` jours (7 par défaut), sauf si l'utilisateur demande de tout revérifier.
@@ -145,7 +155,7 @@ de ne jamais présenter un média orphelin comme supprimable sans réserve, et d
 
 ## Limites connues
 
-* Un média utilisé seulement par un fichier de thème, ou par les données d'un autre plugin, est vu comme orphelin :
+* Un média utilisé seulement par un fichier de thème, ou par les données d'un autre plugin qui ne le déclare pas, est vu comme orphelin :
   d'où l'action « Ignorer » et l'absence de suppression automatique.
 * La recherche par `LIKE` de la phase 3 lit plusieurs tables pour chaque média candidat : elle peut être longue sur un blog
   avec beaucoup de médias inutilisés. Elle est découpée en étapes comme le reste.
@@ -156,7 +166,6 @@ de ne jamais présenter un média orphelin comme supprimable sans réserve, et d
 ## Idées pour plus tard
 
 * Guide d'utilisation en français avec captures (`docs/fr/`), une fois l'interface validée.
-* Un behavior pour que d'autres plugins déclarent les médias qu'ils utilisent.
 * Signaler les liens déplacés définitivement (301) pour proposer la nouvelle adresse.
 * Module du tableau de bord, comme PenseBete.
 * Vérifier un billet à son enregistrement (ses fichiers au moins).
