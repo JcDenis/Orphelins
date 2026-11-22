@@ -1,3 +1,9 @@
+Orphelins 0.5 - 2026.11.22
+===========================================================
+* [new] Let other plugins tell the media they use, with the behavior OrphelinsUsedMedia (#4)
+* [change] Look for unused media in the metadata of the entries too
+* [docs] Media declared by other plugins are not unused
+
 Orphelins 0.4 - 2026.11.19
 ===========================================================
 * [fix] No link to the media page for an unused media without file, the core gives an error 500
