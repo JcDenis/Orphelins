@@ -69,7 +69,7 @@ On the dashboard, the favorite _Dead links and unused media_ is an icon giving t
 
 ### Limits
 
-* An unused media is a media no entry uses. It is also looked for in the descriptions
+* An unused media is a media no entry uses. It is also looked for in the metadata of the entries, in the descriptions
   of the categories and of the blogs and in the settings (themes, widgets), and other plugins can tell the media they use
   (see below), but a theme file or another plugin may still use it: look at it before deleting it, and ignore the ones you keep.
 * Links are checked from the server of the blog: local and private addresses are never requested.

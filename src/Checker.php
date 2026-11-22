@@ -646,7 +646,7 @@ class Checker
     /**
      * Look for a media where the reading of the entries does not go:
      * the entries of the other blogs sharing the media library, what is not a link or an image in a content,
-     * the descriptions of the categories and of the blogs, and the settings (themes, widgets…).
+     * the descriptions of the categories and of the blogs, the settings (themes, widgets…) and the metadata of the entries.
      *
      * @param   string  $file   The path of the media from the root of the media library
      */
@@ -672,6 +672,7 @@ class Checker
             $prefix . App::blog()->categories()::CATEGORY_TABLE_NAME => ['cat_desc'],
             $prefix . App::blog()::BLOG_TABLE_NAME              => ['blog_desc'],
             $prefix . App::blogWorkspace()::NS_TABLE_NAME       => ['setting_value'],
+            $prefix . App::meta()::META_TABLE_NAME              => ['meta_id'],
         ];
 
         foreach ($places as $table => $fields) {
