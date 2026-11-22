@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Orphelins;
 
+use ArrayObject;
 use Dotclear\App;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Database\Statement\SelectStatement;
@@ -61,6 +62,16 @@ class Checker
     public const PHASE_POSTS = 'posts';
     public const PHASE_LINKS = 'links';
     public const PHASE_MEDIA = 'media';
+
+    /**
+     * The behavior other plugins use to tell the media they use.
+     *
+     * Its argument is an ArrayObject to append to: a media ID (int), a path from the root of the media library
+     * or an address (string). Called once per page load of the check, in backend context, for the current blog.
+     *
+     * @var     string  BEHAVIOR_USED_MEDIA
+     */
+    public const BEHAVIOR_USED_MEDIA = 'OrphelinsUsedMedia';
 
     /**
      * The numbers of entries and media read by a query.
@@ -609,6 +620,22 @@ class Checker
         foreach (Items::files() as $url) {
             $path = Url::mediaPath($url);
             if ($path !== null) {
+                $used['keys'][Url::mediaKey($path)] = true;
+            }
+        }
+
+        // Media other plugins say they use: media IDs, paths from the root of the media library, or addresses
+        /**
+         * @var     ArrayObject<int, mixed>     $others
+         */
+        $others = new ArrayObject();
+
+        # --BEHAVIOR-- OrphelinsUsedMedia -- ArrayObject
+        App::behavior()->callBehavior(self::BEHAVIOR_USED_MEDIA, $others);
+        foreach ($others as $media) {
+            if (is_int($media)) {
+                $used['ids'][$media] = true;
+            } elseif (is_string($media) && ($path = Url::declaredPath($media, App::blog()->url())) !== null) {
                 $used['keys'][Url::mediaKey($path)] = true;
             }
         }

@@ -154,6 +154,35 @@ class Url
     }
 
     /**
+     * Get the path of a file in the media library from a value given by another plugin.
+     *
+     * @param   string  $value  A path from the root of the media library, or an address (full, or from the root of the site)
+     * @param   string  $base   The address of the blog
+     *
+     * @return  null|string     The path from the root of the media library, null if the value is not in the media library
+     */
+    public static function declaredPath(string $value, string $base): ?string
+    {
+        $value = trim($value);
+        if ($value === '') {
+            return null;
+        }
+
+        if (preg_match('#^([a-z][a-z0-9+.-]*:|/)#i', $value) === 1) {
+            $url = self::resolve($value, $base);
+
+            return $url === null ? null : self::mediaPath($url);
+        }
+
+        $path = ltrim(rawurldecode((string) preg_replace('/[?#].*$/s', '', $value)), '/');
+        if ($path === '' || str_contains($path, "\0") || in_array('..', explode('/', $path), true)) {
+            return null;
+        }
+
+        return self::clean($path);
+    }
+
+    /**
      * Get the key of a file of the media library: the same for a media and for its thumbnails.
      *
      * @param   string  $path   The path from the root of the media library

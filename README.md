@@ -69,11 +69,27 @@ On the dashboard, the favorite _Dead links and unused media_ is an icon giving t
 
 ### Limits
 
-* An unused media is a media no entry uses. It is also looked for in the descriptions of the categories and of the blogs
-  and in the settings (themes, widgets), but a theme file or another plugin may still use it: look at it before deleting it,
-  and ignore the ones you keep.
+* An unused media is a media no entry uses. It is also looked for in the descriptions
+  of the categories and of the blogs and in the settings (themes, widgets), and other plugins can tell the media they use
+  (see below), but a theme file or another plugin may still use it: look at it before deleting it, and ignore the ones you keep.
 * Links are checked from the server of the blog: local and private addresses are never requested.
 * Only links and media of the entries are checked, not those of the comments.
+
+### For other plugins
+
+A plugin which uses media in its own data can tell it with the behavior `OrphelinsUsedMedia`, so these media are never listed as unused.
+Its argument is an `ArrayObject` to append to: a media ID (`int`), a path from the root of the media library or an address (`string`).
+It is called in backend context, for the current blog, once per step of the check and before deleting media. For example, in `Prepend.php`:
+
+```php
+App::behavior()->addBehavior('OrphelinsUsedMedia', function (ArrayObject $media): void {
+    $media->append(12);                                 // media ID
+    $media->append('images/logo.png');                  // path in the media library
+    $media->append('https://example.com/public/a.jpg'); // address
+});
+```
+
+Media linked to an entry by the core table `post_media` (attachments, featured media of the plugin featuredMedia…) are already known.
 
 ## AI ASSISTANT
 
