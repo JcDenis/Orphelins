@@ -22,7 +22,7 @@ $this->registerModule(
     'Dead links and unused media',
     'Find dead links, missing files and unused media of the blog',
     'Jean-Christian Paul Denis and Contributors',
-    '0.5',
+    '0.5.1',
     [
         'requires' => [
             ['php', '8.3'],

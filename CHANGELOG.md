@@ -1,3 +1,7 @@
+Orphelins 0.5.1 - 2026.11.23
+===========================================================
+* [new] Family of the ClaudetteMcp tools, for the keys limited to some families
+
 Orphelins 0.5 - 2026.11.22
 ===========================================================
 * [new] Let other plugins tell the media they use, with the behavior OrphelinsUsedMedia (#4)
